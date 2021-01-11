@@ -25,6 +25,10 @@
 		BC9C680D25AC75A9004A77CC /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680C25AC75A9004A77CC /* Word.swift */; };
 		BC9C681025AC7832004A77CC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680F25AC7832004A77CC /* Score.swift */; };
 		BC9C681325ACCBB7004A77CC /* Verb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C681225ACCBB7004A77CC /* Verb.swift */; };
+		BC9C681825ACCE11004A77CC /* WordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C681625ACCE11004A77CC /* WordsViewController.swift */; };
+		BC9C681925ACCE11004A77CC /* WordsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C681725ACCE11004A77CC /* WordsViewController.xib */; };
+		BC9C682425ACD19A004A77CC /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C682225ACD19A004A77CC /* WordTableViewCell.swift */; };
+		BC9C682525ACD19A004A77CC /* WordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C682325ACD19A004A77CC /* WordTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +52,10 @@
 		BC9C680C25AC75A9004A77CC /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		BC9C680F25AC7832004A77CC /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		BC9C681225ACCBB7004A77CC /* Verb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verb.swift; sourceTree = "<group>"; };
+		BC9C681625ACCE11004A77CC /* WordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsViewController.swift; sourceTree = "<group>"; };
+		BC9C681725ACCE11004A77CC /* WordsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordsViewController.xib; sourceTree = "<group>"; };
+		BC9C682225ACD19A004A77CC /* WordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
+		BC9C682325ACD19A004A77CC /* WordTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				BC9C67EC25AAFD3D004A77CC /* Utils */,
+				BC9C681525ACCDE8004A77CC /* WordsVC */,
 				BC9C67E525AAF93D004A77CC /* GameVC */,
 			);
 			path = UI;
@@ -167,6 +176,25 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
+		BC9C681525ACCDE8004A77CC /* WordsVC */ = {
+			isa = PBXGroup;
+			children = (
+				BC9C681C25ACD169004A77CC /* TableView */,
+				BC9C681625ACCE11004A77CC /* WordsViewController.swift */,
+				BC9C681725ACCE11004A77CC /* WordsViewController.xib */,
+			);
+			path = WordsVC;
+			sourceTree = "<group>";
+		};
+		BC9C681C25ACD169004A77CC /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				BC9C682225ACD19A004A77CC /* WordTableViewCell.swift */,
+				BC9C682325ACD19A004A77CC /* WordTableViewCell.xib */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -226,8 +254,10 @@
 			files = (
 				BC9C67E925AAF978004A77CC /* InitGameViewController.xib in Resources */,
 				BC9C67D625AAF2B4004A77CC /* LaunchScreen.storyboard in Resources */,
+				BC9C681925ACCE11004A77CC /* WordsViewController.xib in Resources */,
 				BC9C67FD25AC6A39004A77CC /* GameViewController.xib in Resources */,
 				BC9C67D325AAF2B4004A77CC /* Assets.xcassets in Resources */,
+				BC9C682525ACD19A004A77CC /* WordTableViewCell.xib in Resources */,
 				BC9C67F825AC5643004A77CC /* wordsdb.sql in Resources */,
 				BC9C67D125AAF2B2004A77CC /* Main.storyboard in Resources */,
 			);
@@ -244,12 +274,14 @@
 				BC9C680125AC6AB9004A77CC /* ProgressGame.swift in Sources */,
 				BC9C67F425AB6E97004A77CC /* DBManager.swift in Sources */,
 				BC9C680525AC72EE004A77CC /* WordsAPI.swift in Sources */,
+				BC9C681825ACCE11004A77CC /* WordsViewController.swift in Sources */,
 				BC9C680925AC7598004A77CC /* Sustantive.swift in Sources */,
 				BC9C67E825AAF978004A77CC /* InitGameViewController.swift in Sources */,
 				BC9C67EE25AAFD57004A77CC /* ItemSelector.swift in Sources */,
 				BC9C67CE25AAF2B2004A77CC /* ViewController.swift in Sources */,
 				BC9C680D25AC75A9004A77CC /* Word.swift in Sources */,
 				BC9C67FC25AC6A39004A77CC /* GameViewController.swift in Sources */,
+				BC9C682425ACD19A004A77CC /* WordTableViewCell.swift in Sources */,
 				BC9C681025AC7832004A77CC /* Score.swift in Sources */,
 				BC9C67CA25AAF2B2004A77CC /* AppDelegate.swift in Sources */,
 			);

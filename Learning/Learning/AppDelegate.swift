@@ -24,8 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBar = UITabBarController()
 
         let initGameViewController = InitGameViewController()
+        let wordsViewController = WordsViewController()
         let gameNavigationController = UINavigationController(rootViewController: initGameViewController)
-        tabBar.viewControllers = [gameNavigationController]
+        let wordsNavigationController = UINavigationController(rootViewController: wordsViewController)
+        tabBar.viewControllers = [gameNavigationController, wordsNavigationController]
+        gameNavigationController.title = "Juego"
+        wordsNavigationController.title = "Palabras"
         tabBar.tabBar.barTintColor = .blue
         window.rootViewController = tabBar
     }
