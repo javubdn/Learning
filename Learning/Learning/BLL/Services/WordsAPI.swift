@@ -35,6 +35,23 @@ class WordsAPI {
                 listWords.append(sustantive)
             }
         }
+
+        let queryVerbInit = "select * from \(initLanguageValue[3])"
+        let verbInit = dbManager.query(queryVerbInit)
+        let queryVerbEnd = "select * from \(endLanguageValue[3])"
+        let verbEnd = dbManager.query(queryVerbEnd)
+
+        if let verbInit = verbInit as? [[String]],
+           let verbEnd = verbEnd as? [[String]] {
+            for index in 0..<verbInit.count {
+                let verb = Verb(initialWord: verbInit[index][1],
+                                endWord: verbEnd[index][1],
+                                initialPart: verbInit[index][2],
+                                endPart: verbEnd[index][2])
+                listWords.append(verb)
+            }
+        }
+
         return listWords
     }
 }

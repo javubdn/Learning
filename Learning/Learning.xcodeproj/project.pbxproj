@@ -24,6 +24,7 @@
 		BC9C680925AC7598004A77CC /* Sustantive.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680825AC7598004A77CC /* Sustantive.swift */; };
 		BC9C680D25AC75A9004A77CC /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680C25AC75A9004A77CC /* Word.swift */; };
 		BC9C681025AC7832004A77CC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680F25AC7832004A77CC /* Score.swift */; };
+		BC9C681325ACCBB7004A77CC /* Verb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C681225ACCBB7004A77CC /* Verb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		BC9C680825AC7598004A77CC /* Sustantive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sustantive.swift; sourceTree = "<group>"; };
 		BC9C680C25AC75A9004A77CC /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		BC9C680F25AC7832004A77CC /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
+		BC9C681225ACCBB7004A77CC /* Verb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 				BC9C680825AC7598004A77CC /* Sustantive.swift */,
 				BC9C680C25AC75A9004A77CC /* Word.swift */,
 				BC9C680F25AC7832004A77CC /* Score.swift */,
+				BC9C681225ACCBB7004A77CC /* Verb.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC9C681325ACCBB7004A77CC /* Verb.swift in Sources */,
 				BC9C680125AC6AB9004A77CC /* ProgressGame.swift in Sources */,
 				BC9C67F425AB6E97004A77CC /* DBManager.swift in Sources */,
 				BC9C680525AC72EE004A77CC /* WordsAPI.swift in Sources */,
