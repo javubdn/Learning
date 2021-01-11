@@ -71,10 +71,7 @@ class DBManager {
     private func openDatabase(_ databasePath: String) -> OpaquePointer? {
         var db: OpaquePointer?
         if sqlite3_open(databasePath, &db) == SQLITE_OK {
-            print("Successfully opened connection to database at \(databasePath)")
             return db
-        } else {
-            print("Unable to open database.")
         }
         return nil
     }

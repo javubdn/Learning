@@ -10,7 +10,7 @@ import UIKit
 class InitGameViewController: UIViewController {
 
     private var initLanguageSelected = 0
-    private var endLanguageSelected = 0
+    private var endLanguageSelected = 1
 
     @IBOutlet weak var initLanguageSelector: ItemSelector!
     @IBOutlet weak var endLanguageSelector: ItemSelector!
@@ -38,16 +38,20 @@ class InitGameViewController: UIViewController {
         initLanguageSelector.listItems = languages
         initLanguageSelector.itemId = .initial
         initLanguageSelector.delegate = self
+        initLanguageSelector.currentIndex = initLanguageSelected
         endLanguageSelector.listItems = languages
         endLanguageSelector.itemId = .final
         endLanguageSelector.delegate = self
-        endLanguageSelector.currentIndex = 1
+        endLanguageSelector.currentIndex = endLanguageSelected
     }
 
     //MARK: - Actions
 
     @IBAction func playButtonPressed(_ sender: UIButton) {
-
+        let gameViewController = GameViewController()
+        gameViewController.initLanguage = initLanguageSelected
+        gameViewController.endLanguage = endLanguageSelected
+        navigationController?.pushViewController(gameViewController, animated: true)
     }
 
 }

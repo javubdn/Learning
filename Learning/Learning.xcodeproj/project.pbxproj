@@ -17,6 +17,13 @@
 		BC9C67EE25AAFD57004A77CC /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C67ED25AAFD57004A77CC /* ItemSelector.swift */; };
 		BC9C67F425AB6E97004A77CC /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C67F325AB6E97004A77CC /* DBManager.swift */; };
 		BC9C67F825AC5643004A77CC /* wordsdb.sql in Resources */ = {isa = PBXBuildFile; fileRef = BC9C67F725AC5643004A77CC /* wordsdb.sql */; };
+		BC9C67FC25AC6A39004A77CC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C67FA25AC6A39004A77CC /* GameViewController.swift */; };
+		BC9C67FD25AC6A39004A77CC /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C67FB25AC6A39004A77CC /* GameViewController.xib */; };
+		BC9C680125AC6AB9004A77CC /* ProgressGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680025AC6AB9004A77CC /* ProgressGame.swift */; };
+		BC9C680525AC72EE004A77CC /* WordsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680425AC72EE004A77CC /* WordsAPI.swift */; };
+		BC9C680925AC7598004A77CC /* Sustantive.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680825AC7598004A77CC /* Sustantive.swift */; };
+		BC9C680D25AC75A9004A77CC /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680C25AC75A9004A77CC /* Word.swift */; };
+		BC9C681025AC7832004A77CC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C680F25AC7832004A77CC /* Score.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +39,13 @@
 		BC9C67ED25AAFD57004A77CC /* ItemSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelector.swift; sourceTree = "<group>"; };
 		BC9C67F325AB6E97004A77CC /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		BC9C67F725AC5643004A77CC /* wordsdb.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = wordsdb.sql; sourceTree = "<group>"; };
+		BC9C67FA25AC6A39004A77CC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		BC9C67FB25AC6A39004A77CC /* GameViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
+		BC9C680025AC6AB9004A77CC /* ProgressGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressGame.swift; sourceTree = "<group>"; };
+		BC9C680425AC72EE004A77CC /* WordsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsAPI.swift; sourceTree = "<group>"; };
+		BC9C680825AC7598004A77CC /* Sustantive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sustantive.swift; sourceTree = "<group>"; };
+		BC9C680C25AC75A9004A77CC /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		BC9C680F25AC7832004A77CC /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,8 +103,11 @@
 		BC9C67E525AAF93D004A77CC /* GameVC */ = {
 			isa = PBXGroup;
 			children = (
+				BC9C67FF25AC6AA7004A77CC /* Components */,
 				BC9C67E625AAF978004A77CC /* InitGameViewController.swift */,
 				BC9C67E725AAF978004A77CC /* InitGameViewController.xib */,
+				BC9C67FA25AC6A39004A77CC /* GameViewController.swift */,
+				BC9C67FB25AC6A39004A77CC /* GameViewController.xib */,
 			);
 			path = GameVC;
 			sourceTree = "<group>";
@@ -106,6 +123,7 @@
 		BC9C67F125AB6E7E004A77CC /* BLL */ = {
 			isa = PBXGroup;
 			children = (
+				BC9C680725AC7588004A77CC /* Entities */,
 				BC9C67F225AB6E85004A77CC /* Services */,
 			);
 			path = BLL;
@@ -115,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				BC9C67F325AB6E97004A77CC /* DBManager.swift */,
+				BC9C680425AC72EE004A77CC /* WordsAPI.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -125,6 +144,24 @@
 				BC9C67F725AC5643004A77CC /* wordsdb.sql */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		BC9C67FF25AC6AA7004A77CC /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BC9C680025AC6AB9004A77CC /* ProgressGame.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		BC9C680725AC7588004A77CC /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				BC9C680825AC7598004A77CC /* Sustantive.swift */,
+				BC9C680C25AC75A9004A77CC /* Word.swift */,
+				BC9C680F25AC7832004A77CC /* Score.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,6 +223,7 @@
 			files = (
 				BC9C67E925AAF978004A77CC /* InitGameViewController.xib in Resources */,
 				BC9C67D625AAF2B4004A77CC /* LaunchScreen.storyboard in Resources */,
+				BC9C67FD25AC6A39004A77CC /* GameViewController.xib in Resources */,
 				BC9C67D325AAF2B4004A77CC /* Assets.xcassets in Resources */,
 				BC9C67F825AC5643004A77CC /* wordsdb.sql in Resources */,
 				BC9C67D125AAF2B2004A77CC /* Main.storyboard in Resources */,
@@ -199,10 +237,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC9C680125AC6AB9004A77CC /* ProgressGame.swift in Sources */,
 				BC9C67F425AB6E97004A77CC /* DBManager.swift in Sources */,
+				BC9C680525AC72EE004A77CC /* WordsAPI.swift in Sources */,
+				BC9C680925AC7598004A77CC /* Sustantive.swift in Sources */,
 				BC9C67E825AAF978004A77CC /* InitGameViewController.swift in Sources */,
 				BC9C67EE25AAFD57004A77CC /* ItemSelector.swift in Sources */,
 				BC9C67CE25AAF2B2004A77CC /* ViewController.swift in Sources */,
+				BC9C680D25AC75A9004A77CC /* Word.swift in Sources */,
+				BC9C67FC25AC6A39004A77CC /* GameViewController.swift in Sources */,
+				BC9C681025AC7832004A77CC /* Score.swift in Sources */,
 				BC9C67CA25AAF2B2004A77CC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
