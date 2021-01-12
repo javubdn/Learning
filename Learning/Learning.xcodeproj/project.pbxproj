@@ -29,6 +29,8 @@
 		BC9C681925ACCE11004A77CC /* WordsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C681725ACCE11004A77CC /* WordsViewController.xib */; };
 		BC9C682425ACD19A004A77CC /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C682225ACD19A004A77CC /* WordTableViewCell.swift */; };
 		BC9C682525ACD19A004A77CC /* WordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C682325ACD19A004A77CC /* WordTableViewCell.xib */; };
+		BC9C682925ADB327004A77CC /* CurrentWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C682725ADB326004A77CC /* CurrentWordViewController.swift */; };
+		BC9C682A25ADB327004A77CC /* CurrentWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C682825ADB326004A77CC /* CurrentWordViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,9 @@
 		BC9C681725ACCE11004A77CC /* WordsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordsViewController.xib; sourceTree = "<group>"; };
 		BC9C682225ACD19A004A77CC /* WordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
 		BC9C682325ACD19A004A77CC /* WordTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WordTableViewCell.xib; sourceTree = "<group>"; };
+		BC9C682725ADB326004A77CC /* CurrentWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWordViewController.swift; sourceTree = "<group>"; };
+		BC9C682825ADB326004A77CC /* CurrentWordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrentWordViewController.xib; sourceTree = "<group>"; };
+		BC9C684C25ADB6BC004A77CC /* Learning copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Learning copy-Info.plist"; path = "/Users/javicastillorisco/Github/Learning/Learning/Learning copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +79,7 @@
 			children = (
 				BC9C67C825AAF2B2004A77CC /* Learning */,
 				BC9C67C725AAF2B2004A77CC /* Products */,
+				BC9C684C25ADB6BC004A77CC /* Learning copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -182,6 +188,8 @@
 				BC9C681C25ACD169004A77CC /* TableView */,
 				BC9C681625ACCE11004A77CC /* WordsViewController.swift */,
 				BC9C681725ACCE11004A77CC /* WordsViewController.xib */,
+				BC9C682725ADB326004A77CC /* CurrentWordViewController.swift */,
+				BC9C682825ADB326004A77CC /* CurrentWordViewController.xib */,
 			);
 			path = WordsVC;
 			sourceTree = "<group>";
@@ -259,6 +267,7 @@
 				BC9C67D325AAF2B4004A77CC /* Assets.xcassets in Resources */,
 				BC9C682525ACD19A004A77CC /* WordTableViewCell.xib in Resources */,
 				BC9C67F825AC5643004A77CC /* wordsdb.sql in Resources */,
+				BC9C682A25ADB327004A77CC /* CurrentWordViewController.xib in Resources */,
 				BC9C67D125AAF2B2004A77CC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +286,7 @@
 				BC9C681825ACCE11004A77CC /* WordsViewController.swift in Sources */,
 				BC9C680925AC7598004A77CC /* Sustantive.swift in Sources */,
 				BC9C67E825AAF978004A77CC /* InitGameViewController.swift in Sources */,
+				BC9C682925ADB327004A77CC /* CurrentWordViewController.swift in Sources */,
 				BC9C67EE25AAFD57004A77CC /* ItemSelector.swift in Sources */,
 				BC9C67CE25AAF2B2004A77CC /* ViewController.swift in Sources */,
 				BC9C680D25AC75A9004A77CC /* Word.swift in Sources */,
@@ -429,7 +439,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = blue;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K7JYSQBF7B;
 				INFOPLIST_FILE = Learning/Info.plist;
@@ -449,7 +459,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = blue;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K7JYSQBF7B;
 				INFOPLIST_FILE = Learning/Info.plist;

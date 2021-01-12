@@ -28,7 +28,14 @@ class WordsViewController: UIViewController {
         }
         wordsTableView.reloadData()
     }
-    
+
+    //MARK: - Actions
+
+    @IBAction func addButtonPressed(_ sender: UIButton) {
+        let currentWordViewController = CurrentWordViewController()
+        navigationController?.pushViewController(currentWordViewController, animated: true)
+    }
+
 }
 
 extension WordsViewController: UITableViewDelegate {

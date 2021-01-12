@@ -60,13 +60,13 @@ class ItemSelector: UIView {
             withVisualFormat: "H:|-0-[itemComponent]-0-|",
             options: NSLayoutConstraint.FormatOptions(),
             metrics: nil,
-            views: ["itemComponent": itemComponent])
+            views: ["itemComponent": itemComponent!])
 
         let verticalConstraints = NSLayoutConstraint.constraints(
             withVisualFormat: "V:|-0-[itemComponent]-0-|",
             options: NSLayoutConstraint.FormatOptions(),
             metrics: nil,
-            views: ["itemComponent": itemComponent])
+            views: ["itemComponent": itemComponent!])
 
         addConstraints(horizontalConstraints+verticalConstraints)
 
