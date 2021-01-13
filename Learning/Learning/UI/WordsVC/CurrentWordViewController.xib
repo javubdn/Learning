@@ -11,6 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CurrentWordViewController" customModule="Learning" customModuleProvider="target">
             <connections>
+                <outlet property="sustantiveView" destination="oC3-Xr-DDM" id="NI9-95-3hx"/>
+                <outlet property="typeItemSelector" destination="CU3-pl-te0" id="ije-QK-ah5"/>
+                <outlet property="verbView" destination="edC-W9-XJJ" id="wJP-uF-agm"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -34,13 +37,65 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tipo de palabra" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2qS-f3-llv" userLabel="typeLabel">
+                                            <rect key="frame" x="20" y="80" width="150" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="JW5-mj-JWe"/>
+                                                <constraint firstAttribute="width" constant="150" id="KjR-d1-S1E"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CU3-pl-te0" userLabel="typeItemSelector" customClass="ItemSelector" customModule="Learning" customModuleProvider="target">
+                                            <rect key="frame" x="201" y="75.5" width="193" height="30"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="mrQ-kO-s4E"/>
+                                            </constraints>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oC3-Xr-DDM" userLabel="sustantiveView">
+                                            <rect key="frame" x="20" y="125.5" width="374" height="904.5"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2m-2i-wXf" userLabel="addButton">
+                                                    <rect key="frame" x="128" y="436.5" width="119" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Añadir sustantivo"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        </view>
+                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="edC-W9-XJJ" userLabel="verbView">
+                                            <rect key="frame" x="20" y="125.5" width="374" height="904.5"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdU-a0-UVi" userLabel="addButton">
+                                                    <rect key="frame" x="143" y="342" width="88" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Añadir verbo"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="wYM-dh-JfH" firstAttribute="leading" secondItem="goS-1g-hzk" secondAttribute="leading" constant="20" id="8Ci-S7-bmf"/>
+                                        <constraint firstAttribute="trailing" secondItem="edC-W9-XJJ" secondAttribute="trailing" constant="20" id="Ke3-aC-bnJ"/>
+                                        <constraint firstItem="CU3-pl-te0" firstAttribute="leading" secondItem="2qS-f3-llv" secondAttribute="trailing" constant="31" id="NEC-rp-OMq"/>
                                         <constraint firstAttribute="bottom" secondItem="wYM-dh-JfH" secondAttribute="bottom" constant="1000" id="NcT-rU-e6k"/>
+                                        <constraint firstAttribute="bottom" secondItem="oC3-Xr-DDM" secondAttribute="bottom" constant="20" id="PG4-88-wEl"/>
                                         <constraint firstItem="wYM-dh-JfH" firstAttribute="centerX" secondItem="goS-1g-hzk" secondAttribute="centerX" id="Q0A-Om-Tc3"/>
                                         <constraint firstItem="wYM-dh-JfH" firstAttribute="top" secondItem="goS-1g-hzk" secondAttribute="top" constant="20" id="QnQ-Qj-Y7l"/>
+                                        <constraint firstAttribute="trailing" secondItem="CU3-pl-te0" secondAttribute="trailing" constant="20" id="RkY-56-w0r"/>
+                                        <constraint firstItem="edC-W9-XJJ" firstAttribute="top" secondItem="CU3-pl-te0" secondAttribute="bottom" constant="20" id="Zeh-EY-nOa"/>
+                                        <constraint firstItem="2qS-f3-llv" firstAttribute="top" secondItem="wYM-dh-JfH" secondAttribute="bottom" constant="30" id="a1o-KZ-EOg"/>
+                                        <constraint firstAttribute="trailing" secondItem="oC3-Xr-DDM" secondAttribute="trailing" constant="20" id="b6m-Dv-bwA"/>
+                                        <constraint firstItem="CU3-pl-te0" firstAttribute="centerY" secondItem="2qS-f3-llv" secondAttribute="centerY" id="ddk-w5-8rk"/>
+                                        <constraint firstItem="edC-W9-XJJ" firstAttribute="leading" secondItem="goS-1g-hzk" secondAttribute="leading" constant="20" id="iDc-CT-RfK"/>
+                                        <constraint firstItem="oC3-Xr-DDM" firstAttribute="leading" secondItem="goS-1g-hzk" secondAttribute="leading" constant="20" id="ibO-ul-BP5"/>
+                                        <constraint firstItem="oC3-Xr-DDM" firstAttribute="top" secondItem="CU3-pl-te0" secondAttribute="bottom" constant="20" id="mpl-rl-Lep"/>
+                                        <constraint firstAttribute="bottom" secondItem="edC-W9-XJJ" secondAttribute="bottom" constant="20" id="oeQ-7b-rgm"/>
+                                        <constraint firstItem="2qS-f3-llv" firstAttribute="leading" secondItem="goS-1g-hzk" secondAttribute="leading" constant="20" id="ttd-jR-FgL"/>
                                     </constraints>
                                 </view>
                             </subviews>
@@ -70,7 +125,7 @@
                 <constraint firstItem="9uw-zF-jj5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="LrZ-oF-tt2"/>
                 <constraint firstItem="9uw-zF-jj5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="rsH-3t-JHO"/>
             </constraints>
-            <point key="canvasLocation" x="132" y="71"/>
+            <point key="canvasLocation" x="131.8840579710145" y="70.982142857142847"/>
         </view>
     </objects>
     <resources>
