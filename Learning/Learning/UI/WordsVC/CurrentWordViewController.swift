@@ -38,24 +38,41 @@ class CurrentWordViewController: UIViewController {
     }
 
     private func prepareSustantiveView() {
+        var previewView: UIView?
         for language in languages {
             let languageView = UIView()
             let nameLabel = UILabel()
-            nameLabel.text = language
+            nameLabel.text = "Palabra en \(language)"
             languageView.addSubview(nameLabel)
             nameLabel.translatesAutoresizingMaskIntoConstraints = false
-            let labelHorizontalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[nameLabel]-0-|",
+            let nameLabelHorizontalConstraints = NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-0-[nameLabel]",
                 options: NSLayoutConstraint.FormatOptions(),
                 metrics: nil,
                 views: ["nameLabel": nameLabel])
-            let labelVerticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[nameLabel]-0-|",
+            let nameLabelVerticalConstraints = NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|-0-[nameLabel(30)]-0-|",
                 options: NSLayoutConstraint.FormatOptions(),
                 metrics: nil,
                 views: ["nameLabel": nameLabel])
 
-            languageView.addConstraints(labelHorizontalConstraints+labelVerticalConstraints)
+            let nameTextField = UITextField()
+            nameTextField.borderStyle = .roundedRect
+            languageView.addSubview(nameTextField)
+            nameTextField.translatesAutoresizingMaskIntoConstraints = false
+            let nameTextFieldHorizontalConstraints = NSLayoutConstraint.constraints(
+                withVisualFormat: "H:[nameLabel]-20-[nameTextField(100)]-0-|",
+                options: NSLayoutConstraint.FormatOptions(),
+                metrics: nil,
+                views: ["nameLabel": nameLabel, "nameTextField": nameTextField])
+            let nameTextFieldVerticalConstraints = NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|-0-[nameTextField(30)]-0-|",
+                options: NSLayoutConstraint.FormatOptions(),
+                metrics: nil,
+                views: ["nameTextField": nameTextField])
+
+            languageView.addConstraints(nameLabelHorizontalConstraints+nameLabelVerticalConstraints)
+            languageView.addConstraints(nameTextFieldHorizontalConstraints+nameTextFieldVerticalConstraints)
 
             sustantiveView.addSubview(languageView)
             
@@ -67,14 +84,25 @@ class CurrentWordViewController: UIViewController {
                 metrics: nil,
                 views: ["languageView": languageView])
 
-            let verticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[languageView]-0-|",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["languageView": languageView])
+            sustantiveView.addConstraints(horizontalConstraints)
 
-            sustantiveView.addConstraints(horizontalConstraints+verticalConstraints)
+            if let previewView = previewView {
+                let verticalConstraints = NSLayoutConstraint.constraints(
+                    withVisualFormat: "V:[previewView]-20-[languageView]",
+                    options: NSLayoutConstraint.FormatOptions(),
+                    metrics: nil,
+                    views: ["previewView": previewView, "languageView": languageView])
+                sustantiveView.addConstraints(verticalConstraints)
+            } else {
+                let verticalConstraints = NSLayoutConstraint.constraints(
+                    withVisualFormat: "V:|-0-[languageView]",
+                    options: NSLayoutConstraint.FormatOptions(),
+                    metrics: nil,
+                    views: ["languageView": languageView])
+                sustantiveView.addConstraints(verticalConstraints)
+            }
 
+            previewView = languageView
 
         }
     }

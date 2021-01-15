@@ -25,10 +25,10 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9uw-zF-jj5" userLabel="MainView">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e2m-Uc-K1g">
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e2m-Uc-K1g">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="goS-1g-hzk" userLabel="ContentView">
+                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="goS-1g-hzk" userLabel="ContentView">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="1050"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nueva palabra" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYM-dh-JfH" userLabel="titleLabel">
@@ -54,18 +54,11 @@
                                                 <constraint firstAttribute="height" constant="30" id="mrQ-kO-s4E"/>
                                             </constraints>
                                         </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oC3-Xr-DDM" userLabel="sustantiveView">
+                                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oC3-Xr-DDM" userLabel="sustantiveView">
                                             <rect key="frame" x="20" y="125.5" width="374" height="904.5"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2m-2i-wXf" userLabel="addButton">
-                                                    <rect key="frame" x="128" y="436.5" width="119" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Añadir sustantivo"/>
-                                                </button>
-                                            </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </view>
-                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="edC-W9-XJJ" userLabel="verbView">
+                                        <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="edC-W9-XJJ" userLabel="verbView">
                                             <rect key="frame" x="20" y="125.5" width="374" height="904.5"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdU-a0-UVi" userLabel="addButton">
@@ -82,7 +75,6 @@
                                         <constraint firstItem="wYM-dh-JfH" firstAttribute="leading" secondItem="goS-1g-hzk" secondAttribute="leading" constant="20" id="8Ci-S7-bmf"/>
                                         <constraint firstAttribute="trailing" secondItem="edC-W9-XJJ" secondAttribute="trailing" constant="20" id="Ke3-aC-bnJ"/>
                                         <constraint firstItem="CU3-pl-te0" firstAttribute="leading" secondItem="2qS-f3-llv" secondAttribute="trailing" constant="31" id="NEC-rp-OMq"/>
-                                        <constraint firstAttribute="bottom" secondItem="wYM-dh-JfH" secondAttribute="bottom" constant="1000" id="NcT-rU-e6k"/>
                                         <constraint firstAttribute="bottom" secondItem="oC3-Xr-DDM" secondAttribute="bottom" constant="20" id="PG4-88-wEl"/>
                                         <constraint firstItem="wYM-dh-JfH" firstAttribute="centerX" secondItem="goS-1g-hzk" secondAttribute="centerX" id="Q0A-Om-Tc3"/>
                                         <constraint firstItem="wYM-dh-JfH" firstAttribute="top" secondItem="goS-1g-hzk" secondAttribute="top" constant="20" id="QnQ-Qj-Y7l"/>
