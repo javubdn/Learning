@@ -84,7 +84,7 @@ class CurrentWordViewController: UIViewController {
                 metrics: nil,
                 views: ["genderLabel": genderLabel])
             let genderLabelVerticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:[nameLabel]-20-[genderLabel(30)]-0-|",
+                withVisualFormat: "V:[nameLabel]-20-[genderLabel(30)]",
                 options: NSLayoutConstraint.FormatOptions(),
                 metrics: nil,
                 views: ["nameLabel": nameLabel, "genderLabel": genderLabel])
@@ -104,10 +104,42 @@ class CurrentWordViewController: UIViewController {
                 metrics: nil,
                 views: ["nameTextField": nameTextField, "genderTextField": genderTextField])
 
+            let pluralLabel = UILabel()
+            pluralLabel.text = "Plural en \(language)"
+            languageView.addSubview(pluralLabel)
+            pluralLabel.translatesAutoresizingMaskIntoConstraints = false
+            let pluralLabelHorizontalConstraints = NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|-0-[pluralLabel]",
+                options: NSLayoutConstraint.FormatOptions(),
+                metrics: nil,
+                views: ["pluralLabel": pluralLabel])
+            let pluralLabelVerticalConstraints = NSLayoutConstraint.constraints(
+                withVisualFormat: "V:[genderLabel]-20-[pluralLabel(30)]-0-|",
+                options: NSLayoutConstraint.FormatOptions(),
+                metrics: nil,
+                views: ["genderLabel": genderLabel, "pluralLabel": pluralLabel])
+
+            let pluralTextField = UITextField()
+            pluralTextField.borderStyle = .roundedRect
+            languageView.addSubview(pluralTextField)
+            pluralTextField.translatesAutoresizingMaskIntoConstraints = false
+            let pluralTextFieldHorizontalConstraints = NSLayoutConstraint.constraints(
+                withVisualFormat: "H:[pluralLabel]-20-[pluralTextField(100)]-0-|",
+                options: NSLayoutConstraint.FormatOptions(),
+                metrics: nil,
+                views: ["pluralLabel": pluralLabel, "pluralTextField": pluralTextField])
+            let pluralTextFieldVerticalConstraints = NSLayoutConstraint.constraints(
+                withVisualFormat: "V:[genderTextField]-20-[pluralTextField(30)]",
+                options: NSLayoutConstraint.FormatOptions(),
+                metrics: nil,
+                views: ["genderTextField": genderTextField, "pluralTextField": pluralTextField])
+
             languageView.addConstraints(nameLabelHorizontalConstraints+nameLabelVerticalConstraints)
             languageView.addConstraints(nameTextFieldHorizontalConstraints+nameTextFieldVerticalConstraints)
             languageView.addConstraints(genderLabelHorizontalConstraints+genderLabelVerticalConstraints)
             languageView.addConstraints(genderTextFieldHorizontalConstraints+genderTextFieldVerticalConstraints)
+            languageView.addConstraints(pluralLabelHorizontalConstraints+pluralLabelVerticalConstraints)
+            languageView.addConstraints(pluralTextFieldHorizontalConstraints+pluralTextFieldVerticalConstraints)
 
             sustantiveView.addSubview(languageView)
             
