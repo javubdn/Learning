@@ -172,6 +172,29 @@ class CurrentWordViewController: UIViewController {
             previewView = languageView
 
         }
+
+        let addButton = UIButton()
+        addButton.setTitle("Añadir sustantivo", for: .normal)
+        addButton.backgroundColor = .blue
+        addButton.addTarget(self, action: #selector(addSustantive), for: .touchUpInside)
+        sustantiveView.addSubview(addButton)
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        let addButtonHorizontalConstraints = NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|-20-[addButton]-20-|",
+            options: NSLayoutConstraint.FormatOptions(),
+            metrics: nil,
+            views: ["addButton": addButton])
+        let addButtonVerticalConstraints = NSLayoutConstraint.constraints(
+            withVisualFormat: "V:[previewView]-20-[addButton(30)]",
+            options: NSLayoutConstraint.FormatOptions(),
+            metrics: nil,
+            views: ["previewView": previewView as Any, "addButton": addButton])
+        sustantiveView.addConstraints(addButtonHorizontalConstraints+addButtonVerticalConstraints)
+    }
+
+    @objc
+    func addSustantive(sender: UIButton) {
+        print("Añadiendo sustantivo . . .")
     }
 
 }
@@ -184,9 +207,11 @@ extension CurrentWordViewController: ItemSelectorDelegate {
             if selector.currentIndex == 0 {
                 sustantiveView.isHidden = false
                 verbView.isHidden = true
+                self.view.bringSubviewToFront(sustantiveView)
             } else if selector.currentIndex == 1 {
                 sustantiveView.isHidden = true
                 verbView.isHidden = false
+                self.view.bringSubviewToFront(verbView)
             }
         default:
             break
