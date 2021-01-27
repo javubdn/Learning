@@ -38,158 +38,63 @@ class CurrentWordViewController: UIViewController {
     }
 
     private func prepareSustantiveView() {
-        var previewView: UIView?
+        let verticalStack = UIStackView()
+        verticalStack.axis = .vertical
+        verticalStack.spacing = 30
+        verticalStack.alignment = .fill
+        verticalStack.distribution = .fill
+
         for language in languages {
-            let languageView = UIView()
+
             let nameLabel = UILabel()
             nameLabel.text = "Palabra en \(language)"
-            languageView.addSubview(nameLabel)
-            nameLabel.translatesAutoresizingMaskIntoConstraints = false
-            let nameLabelHorizontalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[nameLabel]",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["nameLabel": nameLabel])
-            let nameLabelVerticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[nameLabel(30)]",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["nameLabel": nameLabel])
-
             let nameTextField = UITextField()
             nameTextField.borderStyle = .roundedRect
-            nameTextField.delegate = self
-            nameTextField.isUserInteractionEnabled = true
-            nameTextField.isEnabled = true
-            languageView.addSubview(nameTextField)
-            nameTextField.translatesAutoresizingMaskIntoConstraints = false
-            let nameTextFieldHorizontalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "H:[nameLabel]-20-[nameTextField(100)]-0-|",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["nameLabel": nameLabel, "nameTextField": nameTextField])
-            let nameTextFieldVerticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[nameTextField(30)]",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["nameTextField": nameTextField])
+            let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
+            nameStack.axis = .horizontal
+            nameStack.spacing = 20
+            nameStack.alignment = .fill
+            nameStack.distribution = .fillEqually
 
             let genderLabel = UILabel()
             genderLabel.text = "Género en \(language)"
-            languageView.addSubview(genderLabel)
-            genderLabel.translatesAutoresizingMaskIntoConstraints = false
-            let genderLabelHorizontalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[genderLabel]",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["genderLabel": genderLabel])
-            let genderLabelVerticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:[nameLabel]-20-[genderLabel(30)]",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["nameLabel": nameLabel, "genderLabel": genderLabel])
-
             let genderTextField = UITextField()
             genderTextField.borderStyle = .roundedRect
-            languageView.addSubview(genderTextField)
-            genderTextField.translatesAutoresizingMaskIntoConstraints = false
-            let genderTextFieldHorizontalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "H:[genderLabel]-20-[genderTextField(100)]-0-|",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["genderLabel": genderLabel, "genderTextField": genderTextField])
-            let genderTextFieldVerticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:[nameTextField]-20-[genderTextField(30)]",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["nameTextField": nameTextField, "genderTextField": genderTextField])
+            let genderStack = UIStackView(arrangedSubviews: [genderLabel, genderTextField])
+            genderStack.axis = .horizontal
+            genderStack.spacing = 20
+            genderStack.alignment = .fill
+            genderStack.distribution = .fillEqually
 
             let pluralLabel = UILabel()
             pluralLabel.text = "Plural en \(language)"
-            languageView.addSubview(pluralLabel)
-            pluralLabel.translatesAutoresizingMaskIntoConstraints = false
-            let pluralLabelHorizontalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[pluralLabel]",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["pluralLabel": pluralLabel])
-            let pluralLabelVerticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:[genderLabel]-20-[pluralLabel(30)]-0-|",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["genderLabel": genderLabel, "pluralLabel": pluralLabel])
-
             let pluralTextField = UITextField()
             pluralTextField.borderStyle = .roundedRect
-            languageView.addSubview(pluralTextField)
-            pluralTextField.translatesAutoresizingMaskIntoConstraints = false
-            let pluralTextFieldHorizontalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "H:[pluralLabel]-20-[pluralTextField(100)]-0-|",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["pluralLabel": pluralLabel, "pluralTextField": pluralTextField])
-            let pluralTextFieldVerticalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:[genderTextField]-20-[pluralTextField(30)]",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["genderTextField": genderTextField, "pluralTextField": pluralTextField])
+            let pluralStack = UIStackView(arrangedSubviews: [pluralLabel, pluralTextField])
+            pluralStack.axis = .horizontal
+            pluralStack.spacing = 20
+            pluralStack.alignment = .fill
+            pluralStack.distribution = .fillEqually
 
-            languageView.addConstraints(nameLabelHorizontalConstraints+nameLabelVerticalConstraints)
-            languageView.addConstraints(nameTextFieldHorizontalConstraints+nameTextFieldVerticalConstraints)
-            languageView.addConstraints(genderLabelHorizontalConstraints+genderLabelVerticalConstraints)
-            languageView.addConstraints(genderTextFieldHorizontalConstraints+genderTextFieldVerticalConstraints)
-            languageView.addConstraints(pluralLabelHorizontalConstraints+pluralLabelVerticalConstraints)
-            languageView.addConstraints(pluralTextFieldHorizontalConstraints+pluralTextFieldVerticalConstraints)
-
-            sustantiveView.addSubview(languageView)
-            
-            languageView.translatesAutoresizingMaskIntoConstraints = false
-
-            let horizontalConstraints = NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[languageView]-0-|",
-                options: NSLayoutConstraint.FormatOptions(),
-                metrics: nil,
-                views: ["languageView": languageView])
-
-            sustantiveView.addConstraints(horizontalConstraints)
-
-            if let previewView = previewView {
-                let verticalConstraints = NSLayoutConstraint.constraints(
-                    withVisualFormat: "V:[previewView]-20-[languageView]",
-                    options: NSLayoutConstraint.FormatOptions(),
-                    metrics: nil,
-                    views: ["previewView": previewView, "languageView": languageView])
-                sustantiveView.addConstraints(verticalConstraints)
-            } else {
-                let verticalConstraints = NSLayoutConstraint.constraints(
-                    withVisualFormat: "V:|-0-[languageView]",
-                    options: NSLayoutConstraint.FormatOptions(),
-                    metrics: nil,
-                    views: ["languageView": languageView])
-                sustantiveView.addConstraints(verticalConstraints)
-            }
-
-            previewView = languageView
-
+            verticalStack.addArrangedSubview(nameStack)
+            verticalStack.addArrangedSubview(genderStack)
+            verticalStack.addArrangedSubview(pluralStack)
         }
 
         let addButton = UIButton()
         addButton.setTitle("Añadir sustantivo", for: .normal)
         addButton.backgroundColor = .blue
         addButton.addTarget(self, action: #selector(addSustantive), for: .touchUpInside)
-        sustantiveView.addSubview(addButton)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        let addButtonHorizontalConstraints = NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-20-[addButton]-20-|",
-            options: NSLayoutConstraint.FormatOptions(),
-            metrics: nil,
-            views: ["addButton": addButton])
-        let addButtonVerticalConstraints = NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[previewView]-20-[addButton(30)]",
-            options: NSLayoutConstraint.FormatOptions(),
-            metrics: nil,
-            views: ["previewView": previewView as Any, "addButton": addButton])
-        sustantiveView.addConstraints(addButtonHorizontalConstraints+addButtonVerticalConstraints)
+        verticalStack.addArrangedSubview(addButton)
+        verticalStack.translatesAutoresizingMaskIntoConstraints = false
+        sustantiveView.addSubview(verticalStack)
+
+        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack":verticalStack])
+        let stackView_V: [NSLayoutConstraint]
+        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack":verticalStack])
+
+        sustantiveView.addConstraints(stackView_H)
+        sustantiveView.addConstraints(stackView_V)
     }
 
     @objc
