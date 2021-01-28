@@ -34,7 +34,7 @@ class CurrentWordViewController: UIViewController {
             }
         }
         prepareSustantiveView()
-
+        prepareVerbView()
     }
 
     private func prepareSustantiveView() {
@@ -97,9 +97,63 @@ class CurrentWordViewController: UIViewController {
         sustantiveView.addConstraints(stackView_V)
     }
 
+    private func prepareVerbView() {
+        let verticalStack = UIStackView()
+        verticalStack.axis = .vertical
+        verticalStack.spacing = 30
+        verticalStack.alignment = .fill
+        verticalStack.distribution = .fill
+
+        for language in languages {
+
+            let nameLabel = UILabel()
+            nameLabel.text = "Palabra en \(language)"
+            let nameTextField = UITextField()
+            nameTextField.borderStyle = .roundedRect
+            let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
+            nameStack.axis = .horizontal
+            nameStack.spacing = 20
+            nameStack.alignment = .fill
+            nameStack.distribution = .fillEqually
+
+            let participleLabel = UILabel()
+            participleLabel.text = "Participio en \(language)"
+            let participleTextField = UITextField()
+            participleTextField.borderStyle = .roundedRect
+            let participleStack = UIStackView(arrangedSubviews: [participleLabel, participleTextField])
+            participleStack.axis = .horizontal
+            participleStack.spacing = 20
+            participleStack.alignment = .fill
+            participleStack.distribution = .fillEqually
+
+            verticalStack.addArrangedSubview(nameStack)
+            verticalStack.addArrangedSubview(participleStack)
+        }
+
+        let addButton = UIButton()
+        addButton.setTitle("Añadir verbo", for: .normal)
+        addButton.backgroundColor = .blue
+        addButton.addTarget(self, action: #selector(addVerb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(addButton)
+        verticalStack.translatesAutoresizingMaskIntoConstraints = false
+        verbView.addSubview(verticalStack)
+
+        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack":verticalStack])
+        let stackView_V: [NSLayoutConstraint]
+        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack":verticalStack])
+
+        verbView.addConstraints(stackView_H)
+        verbView.addConstraints(stackView_V)
+    }
+
     @objc
     func addSustantive(sender: UIButton) {
         print("Añadiendo sustantivo . . .")
+    }
+
+    @objc
+    func addVerb(sender: UIButton) {
+        print("Añadiendo verbo . . .")
     }
 
 }
