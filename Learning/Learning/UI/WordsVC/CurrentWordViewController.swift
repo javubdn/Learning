@@ -11,6 +11,9 @@ class CurrentWordViewController: UIViewController {
 
     private var languages: [String] = []
 
+    private var sustantiveTextfields: [UITextField] = []
+
+    @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var typeItemSelector: ItemSelector!
     @IBOutlet weak var sustantiveView: UIView!
     @IBOutlet weak var verbView: UIView!
@@ -35,6 +38,11 @@ class CurrentWordViewController: UIViewController {
         }
         prepareSustantiveView()
         prepareVerbView()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+
     }
 
     private func prepareSustantiveView() {
@@ -79,7 +87,15 @@ class CurrentWordViewController: UIViewController {
             verticalStack.addArrangedSubview(nameStack)
             verticalStack.addArrangedSubview(genderStack)
             verticalStack.addArrangedSubview(pluralStack)
+
+            sustantiveTextfields.append(contentsOf: [nameTextField, genderTextField, pluralTextField])
         }
+
+        for textField in sustantiveTextfields {
+            textField.delegate = self
+            textField.returnKeyType = .next
+        }
+        sustantiveTextfields.last?.returnKeyType = .default
 
         let addButton = UIButton()
         addButton.setTitle("Añadir sustantivo", for: .normal)
@@ -146,6 +162,30 @@ class CurrentWordViewController: UIViewController {
         verbView.addConstraints(stackView_V)
     }
 
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    @objc func keyboardWillShow(notification:NSNotification) {
+
+        guard let userInfo = notification.userInfo else { return }
+        var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+
+        var contentInset: UIEdgeInsets = mainScrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height + 20
+        mainScrollView.contentInset = contentInset
+    }
+
+    @objc func keyboardWillHide(notification:NSNotification) {
+
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        mainScrollView.contentInset = contentInset
+    }
+
+
+    //MARK: - Actions
+
     @objc
     func addSustantive(sender: UIButton) {
         print("Añadiendo sustantivo . . .")
@@ -186,7 +226,15 @@ extension CurrentWordViewController: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        guard let index = sustantiveTextfields.firstIndex(of: textField) else {
+            return true
+        }
+        guard index < sustantiveTextfields.count - 1 else {
+            textField.resignFirstResponder()
+            return true
+        }
+        let nextTextfield = sustantiveTextfields[index+1]
+        nextTextfield.becomeFirstResponder()
         return true
     }
 }

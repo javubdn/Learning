@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CurrentWordViewController" customModule="Learning" customModuleProvider="target">
             <connections>
+                <outlet property="mainScrollView" destination="e2m-Uc-K1g" id="hmr-XF-xgC"/>
                 <outlet property="sustantiveView" destination="oC3-Xr-DDM" id="NI9-95-3hx"/>
                 <outlet property="typeItemSelector" destination="CU3-pl-te0" id="ije-QK-ah5"/>
                 <outlet property="verbView" destination="edC-W9-XJJ" id="wJP-uF-agm"/>
@@ -25,7 +26,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9uw-zF-jj5" userLabel="MainView">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e2m-Uc-K1g">
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e2m-Uc-K1g" userLabel="mainScrollView">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="goS-1g-hzk" userLabel="ContentView">
