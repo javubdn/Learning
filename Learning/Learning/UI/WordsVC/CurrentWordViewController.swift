@@ -183,11 +183,23 @@ class CurrentWordViewController: UIViewController {
         mainScrollView.contentInset = contentInset
     }
 
+    private func validateSustantiveFields() -> UITextField? {
+        for sustantiveTextfield in sustantiveTextfields {
+            if sustantiveTextfield.text == "" {
+                return sustantiveTextfield
+            }
+        }
+        return nil
+    }
 
     //MARK: - Actions
 
     @objc
     func addSustantive(sender: UIButton) {
+        if let missingTextfield = validateSustantiveFields() {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
         print("Añadiendo sustantivo . . .")
     }
 
