@@ -12,6 +12,8 @@ class CurrentWordViewController: UIViewController {
     private var languages: [String] = []
 
     private var sustantiveTextfields: [UITextField] = []
+    private var verbTextfields: [UITextField] = []
+    private var textfields: [[UITextField]] = []
 
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var typeItemSelector: ItemSelector!
@@ -38,6 +40,7 @@ class CurrentWordViewController: UIViewController {
         }
         prepareSustantiveView()
         prepareVerbView()
+        textfields = [sustantiveTextfields, verbTextfields]
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
@@ -144,7 +147,14 @@ class CurrentWordViewController: UIViewController {
 
             verticalStack.addArrangedSubview(nameStack)
             verticalStack.addArrangedSubview(participleStack)
+            verbTextfields.append(contentsOf: [nameTextField, participleTextField])
         }
+
+        for textField in verbTextfields {
+            textField.delegate = self
+            textField.returnKeyType = .next
+        }
+        verbTextfields.last?.returnKeyType = .default
 
         let addButton = UIButton()
         addButton.setTitle("Añadir verbo", for: .normal)
@@ -238,15 +248,22 @@ extension CurrentWordViewController: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        guard let index = sustantiveTextfields.firstIndex(of: textField) else {
-            return true
+        for currentTextfields in textfields {
+            if let index = currentTextfields.firstIndex(of: textField) {
+                navigateNextTextfield(currentTextfields, index: index)
+                break
+            }
         }
-        guard index < sustantiveTextfields.count - 1 else {
-            textField.resignFirstResponder()
-            return true
-        }
-        let nextTextfield = sustantiveTextfields[index+1]
-        nextTextfield.becomeFirstResponder()
         return true
     }
+
+    private func navigateNextTextfield(_ textfields: [UITextField], index currentIndex: Int) {
+        guard currentIndex < textfields.count - 1 else {
+            textfields[currentIndex].resignFirstResponder()
+            return
+        }
+        let nextTextfield = textfields[currentIndex+1]
+        nextTextfield.becomeFirstResponder()
+    }
+
 }
