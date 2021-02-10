@@ -202,6 +202,15 @@ class CurrentWordViewController: UIViewController {
         return nil
     }
 
+    private func validateVerbFields() -> UITextField? {
+        for verbTextfield in verbTextfields {
+            if verbTextfield.text == "" {
+                return verbTextfield
+            }
+        }
+        return nil
+    }
+
     //MARK: - Actions
 
     @objc
@@ -215,6 +224,10 @@ class CurrentWordViewController: UIViewController {
 
     @objc
     func addVerb(sender: UIButton) {
+        if let missingTextfield = validateVerbFields() {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
         print("Añadiendo verbo . . .")
     }
 
