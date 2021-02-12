@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum Mode {
+    case new
+    case info
+}
+
 class CurrentWordViewController: UIViewController {
 
     private var languages: [String] = []
@@ -15,7 +20,11 @@ class CurrentWordViewController: UIViewController {
     private var verbTextfields: [UITextField] = []
     private var textfields: [[UITextField]] = []
 
+    private var mode: Mode = .new
+
     @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var typeWordStackView: UIStackView!
     @IBOutlet weak var typeItemSelector: ItemSelector!
     @IBOutlet weak var sustantiveView: UIView!
     @IBOutlet weak var verbView: UIView!
@@ -46,6 +55,16 @@ class CurrentWordViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
 
+        updateScreen()
+    }
+
+    private func updateScreen() {
+        titleLabel.isHidden = self.mode != .new
+        typeWordStackView.isHidden = self.mode != .new
+        if mode != .new {
+            sustantiveView.isHidden = true
+            verbView.isHidden = true
+        }
     }
 
     private func prepareSustantiveView() {
@@ -209,6 +228,10 @@ class CurrentWordViewController: UIViewController {
             }
         }
         return nil
+    }
+
+    func setMode(_ mode: Mode) {
+        self.mode = mode
     }
 
     //MARK: - Actions

@@ -39,7 +39,11 @@ class WordsViewController: UIViewController {
 }
 
 extension WordsViewController: UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentWordViewController = CurrentWordViewController()
+        currentWordViewController.setMode(.info)
+        navigationController?.pushViewController(currentWordViewController, animated: true)
+    }
 }
 
 extension WordsViewController: UITableViewDataSource {
