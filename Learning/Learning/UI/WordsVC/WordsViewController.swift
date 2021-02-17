@@ -42,6 +42,7 @@ extension WordsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentWordViewController = CurrentWordViewController()
         currentWordViewController.setMode(.info)
+        currentWordViewController.setWord(wordsList[indexPath.row])
         navigationController?.pushViewController(currentWordViewController, animated: true)
     }
 }

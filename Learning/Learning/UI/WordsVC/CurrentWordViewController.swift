@@ -14,6 +14,12 @@ enum Mode {
 
 class CurrentWordViewController: UIViewController {
 
+    private let TAG_ADD_BUTTON = 1
+    private let TAG_SUST_WORD = 2
+    private let TAG_SUST_GENDER = 3
+    private let TAG_VERB_WORD = 4
+    private let TAG_VERB_PART = 5
+
     private var languages: [String] = []
 
     private var sustantiveTextfields: [UITextField] = []
@@ -21,6 +27,7 @@ class CurrentWordViewController: UIViewController {
     private var textfields: [[UITextField]] = []
 
     private var mode: Mode = .new
+    private var currentWord: Word?
 
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -64,7 +71,58 @@ class CurrentWordViewController: UIViewController {
         if mode != .new {
             sustantiveView.isHidden = true
             verbView.isHidden = true
+            if let sustantive = currentWord as? Sustantive {
+                sustantiveView.isHidden = false
+                updateSustantiveView(sustantive)
+            } else if let verb = currentWord as? Verb {
+                verbView.isHidden = false
+                updateVerbView(verb)
+            }
         }
+    }
+
+    private func updateSustantiveView(_ sustantive: Sustantive) {
+        for textField in sustantiveTextfields {
+            textField.isEnabled = mode == .new
+        }
+        if let addButton = sustantiveView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
+            addButton.isHidden = mode != .new
+        }
+        if let sustantiveInit = sustantiveView.viewWithTag(TAG_SUST_WORD * 100 + 0) as? UITextField {
+            sustantiveInit.text = sustantive.initialWord
+        }
+        if let sustantiveEnd = sustantiveView.viewWithTag(TAG_SUST_WORD * 100 + 1) as? UITextField {
+            sustantiveEnd.text = sustantive.endWord
+        }
+        if let genderInit = sustantiveView.viewWithTag(TAG_SUST_GENDER * 100 + 0) as? UITextField {
+            genderInit.text = sustantive.initialGenre
+        }
+        if let genderEnd = sustantiveView.viewWithTag(TAG_SUST_GENDER * 100 + 1) as? UITextField {
+            genderEnd.text = sustantive.endGenre
+        }
+
+    }
+
+    private func updateVerbView(_ verb: Verb) {
+        for textField in verbTextfields {
+            textField.isEnabled = mode == .new
+        }
+        if let addButton = verbView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
+            addButton.isHidden = mode != .new
+        }
+        if let verbInit = verbView.viewWithTag(TAG_VERB_WORD * 100 + 0) as? UITextField {
+            verbInit.text = verb.initialWord
+        }
+        if let verbEnd = verbView.viewWithTag(TAG_VERB_WORD * 100 + 1) as? UITextField {
+            verbEnd.text = verb.endWord
+        }
+        if let partInit = verbView.viewWithTag(TAG_VERB_PART * 100 + 0) as? UITextField {
+            partInit.text = verb.initialPart
+        }
+        if let partEnd = verbView.viewWithTag(TAG_VERB_PART * 100 + 1) as? UITextField {
+            partEnd.text = verb.endPart
+        }
+
     }
 
     private func prepareSustantiveView() {
@@ -79,6 +137,7 @@ class CurrentWordViewController: UIViewController {
             let nameLabel = UILabel()
             nameLabel.text = "Palabra en \(language)"
             let nameTextField = UITextField()
+            nameTextField.tag = TAG_SUST_WORD * 100 + languages.firstIndex(of: language)!
             nameTextField.borderStyle = .roundedRect
             let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
             nameStack.axis = .horizontal
@@ -89,6 +148,7 @@ class CurrentWordViewController: UIViewController {
             let genderLabel = UILabel()
             genderLabel.text = "Género en \(language)"
             let genderTextField = UITextField()
+            genderTextField.tag = TAG_SUST_GENDER * 100 + languages.firstIndex(of: language)!
             genderTextField.borderStyle = .roundedRect
             let genderStack = UIStackView(arrangedSubviews: [genderLabel, genderTextField])
             genderStack.axis = .horizontal
@@ -121,6 +181,7 @@ class CurrentWordViewController: UIViewController {
 
         let addButton = UIButton()
         addButton.setTitle("Añadir sustantivo", for: .normal)
+        addButton.tag = TAG_ADD_BUTTON
         addButton.backgroundColor = .blue
         addButton.addTarget(self, action: #selector(addSustantive), for: .touchUpInside)
         verticalStack.addArrangedSubview(addButton)
@@ -147,6 +208,7 @@ class CurrentWordViewController: UIViewController {
             let nameLabel = UILabel()
             nameLabel.text = "Palabra en \(language)"
             let nameTextField = UITextField()
+            nameTextField.tag = TAG_VERB_WORD * 100 + languages.firstIndex(of: language)!
             nameTextField.borderStyle = .roundedRect
             let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
             nameStack.axis = .horizontal
@@ -157,6 +219,7 @@ class CurrentWordViewController: UIViewController {
             let participleLabel = UILabel()
             participleLabel.text = "Participio en \(language)"
             let participleTextField = UITextField()
+            participleTextField.tag = TAG_VERB_PART * 100 + languages.firstIndex(of: language)!
             participleTextField.borderStyle = .roundedRect
             let participleStack = UIStackView(arrangedSubviews: [participleLabel, participleTextField])
             participleStack.axis = .horizontal
@@ -176,6 +239,7 @@ class CurrentWordViewController: UIViewController {
         verbTextfields.last?.returnKeyType = .default
 
         let addButton = UIButton()
+        addButton.tag = TAG_ADD_BUTTON
         addButton.setTitle("Añadir verbo", for: .normal)
         addButton.backgroundColor = .blue
         addButton.addTarget(self, action: #selector(addVerb), for: .touchUpInside)
@@ -232,6 +296,10 @@ class CurrentWordViewController: UIViewController {
 
     func setMode(_ mode: Mode) {
         self.mode = mode
+    }
+
+    func setWord(_ word: Word) {
+        currentWord = word
     }
 
     //MARK: - Actions
