@@ -17,8 +17,9 @@ class CurrentWordViewController: UIViewController {
     private let TAG_ADD_BUTTON = 1
     private let TAG_SUST_WORD = 2
     private let TAG_SUST_GENDER = 3
-    private let TAG_VERB_WORD = 4
-    private let TAG_VERB_PART = 5
+    private let TAG_SUST_PLURAL = 4
+    private let TAG_VERB_WORD = 5
+    private let TAG_VERB_PART = 6
 
     private var languages: [String] = []
 
@@ -100,6 +101,12 @@ class CurrentWordViewController: UIViewController {
         if let genderEnd = sustantiveView.viewWithTag(TAG_SUST_GENDER * 100 + 1) as? UITextField {
             genderEnd.text = sustantive.endGenre
         }
+        if let pluralInit = sustantiveView.viewWithTag(TAG_SUST_PLURAL * 100 + 0) as? UITextField {
+            pluralInit.text = sustantive.initialPlural
+        }
+        if let pluralEnd = sustantiveView.viewWithTag(TAG_SUST_PLURAL * 100 + 1) as? UITextField {
+            pluralEnd.text = sustantive.endPlural
+        }
 
     }
 
@@ -159,6 +166,7 @@ class CurrentWordViewController: UIViewController {
             let pluralLabel = UILabel()
             pluralLabel.text = "Plural en \(language)"
             let pluralTextField = UITextField()
+            pluralTextField.tag = TAG_SUST_PLURAL * 100 + languages.firstIndex(of: language)!
             pluralTextField.borderStyle = .roundedRect
             let pluralStack = UIStackView(arrangedSubviews: [pluralLabel, pluralTextField])
             pluralStack.axis = .horizontal

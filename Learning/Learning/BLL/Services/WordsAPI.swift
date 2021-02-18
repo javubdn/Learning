@@ -31,7 +31,9 @@ class WordsAPI {
                 let sustantive = Sustantive(initialWord: sustInit[index][1],
                                             endWord: sustEnd[index][1],
                                             initialGenre: sustInit[index][2],
-                                            endGenre: sustEnd[index][2])
+                                            endGenre: sustEnd[index][2],
+                                            initialPlural: sustInit[index][3],
+                                            endPlural: sustEnd[index][3])
                 listWords.append(sustantive)
             }
         }
