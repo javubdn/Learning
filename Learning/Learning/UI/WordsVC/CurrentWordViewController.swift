@@ -10,6 +10,7 @@ import UIKit
 enum Mode {
     case new
     case info
+    case edit
 }
 
 class CurrentWordViewController: UIViewController {
@@ -20,6 +21,9 @@ class CurrentWordViewController: UIViewController {
     private let TAG_SUST_PLURAL = 4
     private let TAG_VERB_WORD = 5
     private let TAG_VERB_PART = 6
+    private let TAG_EDIT_BUTTON = 7
+    private let TAG_ACCEPT_BUTTON = 8
+    private let TAG_CANCEL_BUTTON = 9
 
     private var languages: [String] = []
 
@@ -79,6 +83,8 @@ class CurrentWordViewController: UIViewController {
                 verbView.isHidden = false
                 updateVerbView(verb)
             }
+        } else {
+
         }
     }
 
@@ -88,6 +94,15 @@ class CurrentWordViewController: UIViewController {
         }
         if let addButton = sustantiveView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
             addButton.isHidden = mode != .new
+        }
+        if let editButton = sustantiveView.viewWithTag(TAG_EDIT_BUTTON) as? UIButton {
+            editButton.isHidden = mode != .info
+        }
+        if let acceptButton = sustantiveView.viewWithTag(TAG_ACCEPT_BUTTON) as? UIButton {
+            acceptButton.isHidden = mode != .edit
+        }
+        if let cancelButton = sustantiveView.viewWithTag(TAG_CANCEL_BUTTON) as? UIButton {
+            cancelButton.isHidden = mode != .edit
         }
         if let sustantiveInit = sustantiveView.viewWithTag(TAG_SUST_WORD * 100 + 0) as? UITextField {
             sustantiveInit.text = sustantive.initialWord
@@ -193,6 +208,30 @@ class CurrentWordViewController: UIViewController {
         addButton.backgroundColor = .blue
         addButton.addTarget(self, action: #selector(addSustantive), for: .touchUpInside)
         verticalStack.addArrangedSubview(addButton)
+        verticalStack.translatesAutoresizingMaskIntoConstraints = false
+        sustantiveView.addSubview(verticalStack)
+
+        let editButton = UIButton()
+        editButton.setTitle("Editar sustantivo", for: .normal)
+        editButton.tag = TAG_EDIT_BUTTON
+        editButton.backgroundColor = .blue
+        editButton.addTarget(self, action: #selector(editSustantive), for: .touchUpInside)
+        verticalStack.addArrangedSubview(editButton)
+
+        let acceptButton = UIButton()
+        acceptButton.setTitle("Aceptar", for: .normal)
+        acceptButton.tag = TAG_ACCEPT_BUTTON
+        acceptButton.backgroundColor = .blue
+        acceptButton.addTarget(self, action: #selector(acceptSustantive), for: .touchUpInside)
+        verticalStack.addArrangedSubview(acceptButton)
+
+        let cancelButton = UIButton()
+        cancelButton.setTitle("Cancelar", for: .normal)
+        cancelButton.tag = TAG_CANCEL_BUTTON
+        cancelButton.backgroundColor = .blue
+        cancelButton.addTarget(self, action: #selector(cancelSustantive), for: .touchUpInside)
+        verticalStack.addArrangedSubview(cancelButton)
+
         verticalStack.translatesAutoresizingMaskIntoConstraints = false
         sustantiveView.addSubview(verticalStack)
 
@@ -319,6 +358,24 @@ class CurrentWordViewController: UIViewController {
             return
         }
         print("Añadiendo sustantivo . . .")
+    }
+
+    @objc
+    func editSustantive(sender: UIButton) {
+        mode = .edit
+        updateScreen()
+    }
+
+    @objc
+    func acceptSustantive(sender: UIButton) {
+        mode = .info
+        updateScreen()
+    }
+
+    @objc
+    func cancelSustantive(sender: UIButton) {
+        mode = .info
+        updateScreen()
     }
 
     @objc
