@@ -40,6 +40,7 @@ class WordsViewController: UIViewController {
 
 extension WordsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
         let currentWordViewController = CurrentWordViewController()
         currentWordViewController.setMode(.info)
         currentWordViewController.setWord(wordsList[indexPath.row])
