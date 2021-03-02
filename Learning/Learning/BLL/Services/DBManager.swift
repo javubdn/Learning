@@ -67,6 +67,19 @@ class DBManager {
         return dataList
     }
 
+    func insert(_ insertStatementString: String) {
+        var insertStatement: OpaquePointer?
+        if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("\nSuccessfully inserted row.")
+            } else {
+                print("\nCould not insert row.")
+            }
+        } else {
+            print("\nINSERT statement is not prepared.")
+        }
+        sqlite3_finalize(insertStatement)
+    }
 
     private func openDatabase(_ databasePath: String) -> OpaquePointer? {
         var db: OpaquePointer?

@@ -56,4 +56,26 @@ class WordsAPI {
 
         return listWords
     }
+
+    func addWord(_ word: Word) {
+        let dbManager = DBManager(with: "wordsdb.sql")
+        let queryLanguages = "select * from languages"
+        guard let availableLanguages = dbManager.query(queryLanguages) else {
+            return
+        }
+        guard let initLanguageValue = availableLanguages[0] as? [String],
+              let endLanguageValue = availableLanguages[1] as? [String] else {
+            return
+        }
+
+        if let sustantive = word as? Sustantive {
+            let tableNameInit = initLanguageValue[2]
+            let tableNameEnd = endLanguageValue[2]
+//TODO: Eliminar el número
+            let querySustInit = "insert into \(tableNameInit) (id, word, genre, plural) values (50, '\(sustantive.initialWord)', '\(sustantive.initialGenre)', '\(sustantive.initialPlural)')"
+            let querySustEnd = "insert into \(tableNameEnd) (id, word, genre, plural) values (50, '\(sustantive.endWord)', '\(sustantive.endGenre)', '\(sustantive.endPlural)')"
+            dbManager.insert(querySustInit)
+            dbManager.insert(querySustEnd)
+        }
+    }
 }

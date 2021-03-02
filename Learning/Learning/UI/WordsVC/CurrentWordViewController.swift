@@ -98,7 +98,7 @@ class CurrentWordViewController: UIViewController {
 
     private func updateSustantiveView(_ sustantive: Sustantive?) {
         for textField in sustantiveTextfields {
-            textField.isEnabled = mode == .new
+            textField.isEnabled = mode != .info
         }
         if let addButton = sustantiveView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
             addButton.isHidden = mode != .new
@@ -135,7 +135,7 @@ class CurrentWordViewController: UIViewController {
 
     private func updateVerbView(_ verb: Verb?) {
         for textField in verbTextfields {
-            textField.isEnabled = mode == .new
+            textField.isEnabled = mode != .info
         }
         if let addButton = verbView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
             addButton.isHidden = mode != .new
@@ -397,6 +397,15 @@ class CurrentWordViewController: UIViewController {
             return
         }
         print("Añadiendo sustantivo . . .")
+        let wordsAPI = WordsAPI()
+        let word = Sustantive(initialWord: sustantiveTextfields[0].text!,
+                              endWord: sustantiveTextfields[3].text!,
+                              initialGenre: sustantiveTextfields[1].text!,
+                              endGenre: sustantiveTextfields[4].text!,
+                              initialPlural: sustantiveTextfields[2].text!,
+                              endPlural: sustantiveTextfields[5].text!)
+
+        wordsAPI.addWord(word)
     }
 
     @objc
