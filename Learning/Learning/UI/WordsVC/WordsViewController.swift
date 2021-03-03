@@ -18,15 +18,19 @@ class WordsViewController: UIViewController {
         prepareView()
     }
 
-    private func prepareView() {
-        title = "Palabras"
-        tabBarItem.title = "Palabras"
-        wordsTableView.register(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let wordsAPI = WordsAPI()
         if let wordsList = wordsAPI.getListWords(initLanguage: 0, endLanguage: 1) {
             self.wordsList = wordsList
         }
         wordsTableView.reloadData()
+    }
+
+    private func prepareView() {
+        title = "Palabras"
+        tabBarItem.title = "Palabras"
+        wordsTableView.register(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
     }
 
     //MARK: - Actions

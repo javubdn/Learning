@@ -388,6 +388,17 @@ class CurrentWordViewController: UIViewController {
         currentWord = word
     }
 
+    //MARK: - Helpers
+
+    private func clearFields() {
+        for sustantiveTextfield in sustantiveTextfields {
+            sustantiveTextfield.text = ""
+        }
+        for verbTextfield in verbTextfields {
+            verbTextfield.text = ""
+        }
+    }
+
     //MARK: - Actions
 
     @objc
@@ -396,7 +407,6 @@ class CurrentWordViewController: UIViewController {
             missingTextfield.becomeFirstResponder()
             return
         }
-        print("Añadiendo sustantivo . . .")
         let wordsAPI = WordsAPI()
         let word = Sustantive(initialWord: sustantiveTextfields[0].text!,
                               endWord: sustantiveTextfields[3].text!,
@@ -406,6 +416,7 @@ class CurrentWordViewController: UIViewController {
                               endPlural: sustantiveTextfields[5].text!)
 
         wordsAPI.addWord(word)
+        clearFields()
     }
 
     @objc
