@@ -81,6 +81,19 @@ class WordsAPI {
             let querySustEnd = "insert into \(tableNameEnd) (id, word, genre, plural) values (\(numberItems), '\(sustantive.endWord)', '\(sustantive.endGenre)', '\(sustantive.endPlural)')"
             dbManager.insert(querySustInit)
             dbManager.insert(querySustEnd)
+        } else if let verb = word as? Verb {
+            let tableNameInit = initLanguageValue[3]
+            let tableNameEnd = endLanguageValue[3]
+            let queryVerbCount = "select * from \(tableNameInit)"
+            let verbCount = dbManager.query(queryVerbCount)
+            guard var numberItems = verbCount?.count else {
+                return
+            }
+            numberItems += 1
+            let queryVerbInit = "insert into \(tableNameInit) (id, word, participle) values (\(numberItems), '\(verb.initialWord)', '\(verb.initialPart)')"
+            let queryVerbEnd = "insert into \(tableNameEnd) (id, word, participle) values (\(numberItems), '\(verb.endWord)', '\(verb.endPart)')"
+            dbManager.insert(queryVerbInit)
+            dbManager.insert(queryVerbEnd)
         }
     }
 }

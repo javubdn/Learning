@@ -443,7 +443,13 @@ class CurrentWordViewController: UIViewController {
             missingTextfield.becomeFirstResponder()
             return
         }
-        print("Añadiendo verbo . . .")
+        let wordsAPI = WordsAPI()
+        let word = Verb(initialWord: verbTextfields[0].text!,
+                        endWord: verbTextfields[2].text!,
+                        initialPart: verbTextfields[1].text!,
+                        endPart: verbTextfields[3].text!)
+        wordsAPI.addWord(word)
+        clearFields()
     }
 
     @objc
