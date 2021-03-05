@@ -96,4 +96,33 @@ class WordsAPI {
             dbManager.insert(queryVerbEnd)
         }
     }
+
+    func removeWord(_ word: Word) {
+        let dbManager = DBManager(with: "wordsdb.sql")
+        let queryLanguages = "select * from languages"
+        guard let availableLanguages = dbManager.query(queryLanguages) else {
+            return
+        }
+        guard let initLanguageValue = availableLanguages[0] as? [String],
+              let endLanguageValue = availableLanguages[1] as? [String] else {
+            return
+        }
+
+        if let sustantive = word as? Sustantive {
+            let tableNameInit = initLanguageValue[2]
+            let tableNameEnd = endLanguageValue[2]
+            let querySustInit = "delete from \(tableNameInit) where word = '\(sustantive.initialWord)'"
+            let querySustEnd = "delete from \(tableNameEnd)  where word = '\(sustantive.endWord)'"
+            dbManager.delete(querySustInit)
+            dbManager.delete(querySustEnd)
+        } else if let verb = word as? Verb {
+            let tableNameInit = initLanguageValue[3]
+            let tableNameEnd = endLanguageValue[3]
+            let queryVerbInit = "delete from \(tableNameInit) where word = '\(verb.initialWord)'"
+            let queryVerbEnd = "delete from \(tableNameEnd) where word = '\(verb.endWord)'"
+            dbManager.delete(queryVerbInit)
+            dbManager.delete(queryVerbEnd)
+        }
+    }
+
 }

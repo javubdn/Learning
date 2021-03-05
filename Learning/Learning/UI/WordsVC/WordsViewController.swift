@@ -50,6 +50,21 @@ extension WordsViewController: UITableViewDelegate {
         currentWordViewController.setWord(wordsList[indexPath.row])
         navigationController?.pushViewController(currentWordViewController, animated: true)
     }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let word = wordsList.remove(at: indexPath.row)
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
+            let wordsAPI = WordsAPI()
+            wordsAPI.removeWord(word)
+        }
+    }
 }
 
 extension WordsViewController: UITableViewDataSource {

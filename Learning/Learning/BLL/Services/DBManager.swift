@@ -81,6 +81,20 @@ class DBManager {
         sqlite3_finalize(insertStatement)
     }
 
+    func delete(_ deleteStatementString: String) {
+        var deleteStatement: OpaquePointer?
+        if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
+            if sqlite3_step(deleteStatement) == SQLITE_DONE {
+                print("\nSuccessfully deleted row.")
+            } else {
+                print("\nCould not delete row.")
+            }
+        } else {
+            print("\nDELETE statement could not be prepared")
+        }
+        sqlite3_finalize(deleteStatement)
+    }
+
     private func openDatabase(_ databasePath: String) -> OpaquePointer? {
         var db: OpaquePointer?
         if sqlite3_open(databasePath, &db) == SQLITE_OK {
