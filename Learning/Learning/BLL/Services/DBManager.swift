@@ -67,32 +67,18 @@ class DBManager {
         return dataList
     }
 
-    func insert(_ insertStatementString: String) {
-        var insertStatement: OpaquePointer?
-        if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
-            if sqlite3_step(insertStatement) == SQLITE_DONE {
-                print("\nSuccessfully inserted row.")
+    func execute(_ executeStatementString: String) {
+        var executeStatement: OpaquePointer?
+        if sqlite3_prepare_v2(db, executeStatementString, -1, &executeStatement, nil) == SQLITE_OK {
+            if sqlite3_step(executeStatement) == SQLITE_DONE {
+                print("\nStatement successfully executed.")
             } else {
-                print("\nCould not insert row.")
+                print("\nCould not exectue the statement.")
             }
         } else {
-            print("\nINSERT statement is not prepared.")
+            print("\nStatement could not be prepared.")
         }
-        sqlite3_finalize(insertStatement)
-    }
-
-    func delete(_ deleteStatementString: String) {
-        var deleteStatement: OpaquePointer?
-        if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
-            if sqlite3_step(deleteStatement) == SQLITE_DONE {
-                print("\nSuccessfully deleted row.")
-            } else {
-                print("\nCould not delete row.")
-            }
-        } else {
-            print("\nDELETE statement could not be prepared")
-        }
-        sqlite3_finalize(deleteStatement)
+        sqlite3_finalize(executeStatement)
     }
 
     private func openDatabase(_ databasePath: String) -> OpaquePointer? {

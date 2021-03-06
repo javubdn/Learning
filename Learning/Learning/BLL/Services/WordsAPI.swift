@@ -71,30 +71,19 @@ class WordsAPI {
         if let sustantive = word as? Sustantive {
             let tableNameInit = initLanguageValue[2]
             let tableNameEnd = endLanguageValue[2]
-            let querySustCount = "select * from \(tableNameInit)"
-            let sustCount = dbManager.query(querySustCount)
-            guard var numberItems = sustCount?.count else {
-                return
-            }
-            numberItems += 1
-            let querySustInit = "insert into \(tableNameInit) (id, word, genre, plural) values (\(numberItems), '\(sustantive.initialWord)', '\(sustantive.initialGenre)', '\(sustantive.initialPlural)')"
-            let querySustEnd = "insert into \(tableNameEnd) (id, word, genre, plural) values (\(numberItems), '\(sustantive.endWord)', '\(sustantive.endGenre)', '\(sustantive.endPlural)')"
-            dbManager.insert(querySustInit)
-            dbManager.insert(querySustEnd)
+            let querySustInit = "insert into \(tableNameInit) (word, genre, plural) values ('\(sustantive.initialWord)', '\(sustantive.initialGenre)', '\(sustantive.initialPlural)')"
+            let querySustEnd = "insert into \(tableNameEnd) (word, genre, plural) values ('\(sustantive.endWord)', '\(sustantive.endGenre)', '\(sustantive.endPlural)')"
+            dbManager.execute(querySustInit)
+            dbManager.execute(querySustEnd)
         } else if let verb = word as? Verb {
             let tableNameInit = initLanguageValue[3]
             let tableNameEnd = endLanguageValue[3]
-            let queryVerbCount = "select * from \(tableNameInit)"
-            let verbCount = dbManager.query(queryVerbCount)
-            guard var numberItems = verbCount?.count else {
-                return
-            }
-            numberItems += 1
-            let queryVerbInit = "insert into \(tableNameInit) (id, word, participle) values (\(numberItems), '\(verb.initialWord)', '\(verb.initialPart)')"
-            let queryVerbEnd = "insert into \(tableNameEnd) (id, word, participle) values (\(numberItems), '\(verb.endWord)', '\(verb.endPart)')"
-            dbManager.insert(queryVerbInit)
-            dbManager.insert(queryVerbEnd)
+            let queryVerbInit = "insert into \(tableNameInit) (word, participle) values ('\(verb.initialWord)', '\(verb.initialPart)')"
+            let queryVerbEnd = "insert into \(tableNameEnd) (word, participle) values ('\(verb.endWord)', '\(verb.endPart)')"
+            dbManager.execute(queryVerbInit)
+            dbManager.execute(queryVerbEnd)
         }
+        
     }
 
     func removeWord(_ word: Word) {
@@ -113,15 +102,15 @@ class WordsAPI {
             let tableNameEnd = endLanguageValue[2]
             let querySustInit = "delete from \(tableNameInit) where word = '\(sustantive.initialWord)'"
             let querySustEnd = "delete from \(tableNameEnd)  where word = '\(sustantive.endWord)'"
-            dbManager.delete(querySustInit)
-            dbManager.delete(querySustEnd)
+            dbManager.execute(querySustInit)
+            dbManager.execute(querySustEnd)
         } else if let verb = word as? Verb {
             let tableNameInit = initLanguageValue[3]
             let tableNameEnd = endLanguageValue[3]
             let queryVerbInit = "delete from \(tableNameInit) where word = '\(verb.initialWord)'"
             let queryVerbEnd = "delete from \(tableNameEnd) where word = '\(verb.endWord)'"
-            dbManager.delete(queryVerbInit)
-            dbManager.delete(queryVerbEnd)
+            dbManager.execute(queryVerbInit)
+            dbManager.execute(queryVerbEnd)
         }
     }
 
