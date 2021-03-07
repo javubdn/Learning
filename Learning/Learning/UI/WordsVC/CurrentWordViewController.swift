@@ -408,7 +408,8 @@ class CurrentWordViewController: UIViewController {
             return
         }
         let wordsAPI = WordsAPI()
-        let word = Sustantive(initialWord: sustantiveTextfields[0].text!,
+        let word = Sustantive(id: "",
+                              initialWord: sustantiveTextfields[0].text!,
                               endWord: sustantiveTextfields[3].text!,
                               initialGenre: sustantiveTextfields[1].text!,
                               endGenre: sustantiveTextfields[4].text!,
@@ -427,6 +428,20 @@ class CurrentWordViewController: UIViewController {
 
     @objc
     func acceptSustantive(sender: UIButton) {
+        if let missingTextfield = validateSustantiveFields() {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
+        let word = Sustantive(id: currentWord!.id,
+                              initialWord: sustantiveTextfields[0].text!,
+                              endWord: sustantiveTextfields[3].text!,
+                              initialGenre: sustantiveTextfields[1].text!,
+                              endGenre: sustantiveTextfields[4].text!,
+                              initialPlural: sustantiveTextfields[2].text!,
+                              endPlural: sustantiveTextfields[5].text!)
+        let wordsAPI = WordsAPI()
+        currentWord = word
+        wordsAPI.updateWord(word)
         mode = .info
         updateScreen()
     }
@@ -444,7 +459,8 @@ class CurrentWordViewController: UIViewController {
             return
         }
         let wordsAPI = WordsAPI()
-        let word = Verb(initialWord: verbTextfields[0].text!,
+        let word = Verb(id: "",
+                        initialWord: verbTextfields[0].text!,
                         endWord: verbTextfields[2].text!,
                         initialPart: verbTextfields[1].text!,
                         endPart: verbTextfields[3].text!)

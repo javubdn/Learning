@@ -13,11 +13,11 @@ class Sustantive: Word {
     let initialPlural: String
     let endPlural: String
 
-    init(initialWord: String, endWord: String, initialGenre: String, endGenre: String, initialPlural: String, endPlural: String) {
+    init(id: String, initialWord: String, endWord: String, initialGenre: String, endGenre: String, initialPlural: String, endPlural: String) {
         self.initialGenre = initialGenre
         self.endGenre = endGenre
         self.initialPlural = initialPlural
         self.endPlural = endPlural
-        super.init(initialWord: initialWord, endWord: endWord)
+        super.init(id: id, initialWord: initialWord, endWord: endWord)
     }
 }

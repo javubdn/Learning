@@ -8,10 +8,12 @@
 import Foundation
 
 class Word {
+    let id: String
     let initialWord: String
     let endWord: String
 
-    init(initialWord: String, endWord: String) {
+    init(id: String, initialWord: String, endWord: String) {
+        self.id = id
         self.initialWord = initialWord
         self.endWord = endWord
     }

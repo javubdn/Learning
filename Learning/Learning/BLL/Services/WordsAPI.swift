@@ -28,13 +28,15 @@ class WordsAPI {
         if let sustInit = sustInit as? [[String]],
            let sustEnd = sustEnd as? [[String]] {
             for index in 0..<sustInit.count {
-                let sustantive = Sustantive(initialWord: sustInit[index][1],
+                let sustantive = Sustantive(id: sustInit[index][0],
+                                            initialWord: sustInit[index][1],
                                             endWord: sustEnd[index][1],
                                             initialGenre: sustInit[index][2],
                                             endGenre: sustEnd[index][2],
                                             initialPlural: sustInit[index][3],
                                             endPlural: sustEnd[index][3])
                 listWords.append(sustantive)
+                print("Identificador --> \(sustInit[index][0]) \(sustEnd[index][0])")
             }
         }
 
@@ -46,7 +48,8 @@ class WordsAPI {
         if let verbInit = verbInit as? [[String]],
            let verbEnd = verbEnd as? [[String]] {
             for index in 0..<verbInit.count {
-                let verb = Verb(initialWord: verbInit[index][1],
+                let verb = Verb(id: verbInit[index][0],
+                                initialWord: verbInit[index][1],
                                 endWord: verbEnd[index][1],
                                 initialPart: verbInit[index][2],
                                 endPart: verbEnd[index][2])
@@ -111,6 +114,26 @@ class WordsAPI {
             let queryVerbEnd = "delete from \(tableNameEnd) where word = '\(verb.endWord)'"
             dbManager.execute(queryVerbInit)
             dbManager.execute(queryVerbEnd)
+        }
+    }
+
+    func updateWord(_ word: Word) {
+        let dbManager = DBManager(with: "wordsdb.sql")
+        let queryLanguages = "select * from languages"
+        guard let availableLanguages = dbManager.query(queryLanguages) else {
+            return
+        }
+        guard let initLanguageValue = availableLanguages[0] as? [String],
+              let endLanguageValue = availableLanguages[1] as? [String] else {
+            return
+        }
+        if let sustantive = word as? Sustantive {
+            let tableNameInit = initLanguageValue[2]
+            let tableNameEnd = endLanguageValue[2]
+            let querySustInit = "update \(tableNameInit) set word = '\(sustantive.initialWord)', genre = '\(sustantive.initialGenre)', plural = '\(sustantive.initialPlural)' where id = '\(sustantive.id)'"
+            let querySustEnd = "update \(tableNameEnd) set word = '\(sustantive.endWord)', genre = '\(sustantive.endGenre)', plural = '\(sustantive.endPlural)' where id = '\(sustantive.id)'"
+            dbManager.execute(querySustInit)
+            dbManager.execute(querySustEnd)
         }
     }
 

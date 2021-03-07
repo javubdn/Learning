@@ -11,9 +11,9 @@ class Verb: Word {
     let initialPart: String
     let endPart: String
 
-    init(initialWord: String, endWord: String, initialPart: String, endPart: String) {
+    init(id: String,initialWord: String, endWord: String, initialPart: String, endPart: String) {
         self.initialPart = initialPart
         self.endPart = endPart
-        super.init(initialWord: initialWord, endWord: endWord)
+        super.init(id: id, initialWord: initialWord, endWord: endWord)
     }
 }
