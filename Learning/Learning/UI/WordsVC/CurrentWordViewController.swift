@@ -476,6 +476,18 @@ class CurrentWordViewController: UIViewController {
 
     @objc
     func acceptVerb(sender: UIButton) {
+        if let missingTextfield = validateVerbFields() {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
+        let word = Verb(id: currentWord!.id,
+                        initialWord: verbTextfields[0].text!,
+                        endWord: verbTextfields[2].text!,
+                        initialPart: verbTextfields[1].text!,
+                        endPart: verbTextfields[3].text!)
+        let wordsAPI = WordsAPI()
+        currentWord = word
+        wordsAPI.updateWord(word)
         mode = .info
         updateScreen()
     }

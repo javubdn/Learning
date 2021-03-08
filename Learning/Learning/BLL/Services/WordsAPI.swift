@@ -36,7 +36,6 @@ class WordsAPI {
                                             initialPlural: sustInit[index][3],
                                             endPlural: sustEnd[index][3])
                 listWords.append(sustantive)
-                print("Identificador --> \(sustInit[index][0]) \(sustEnd[index][0])")
             }
         }
 
@@ -74,15 +73,17 @@ class WordsAPI {
         if let sustantive = word as? Sustantive {
             let tableNameInit = initLanguageValue[2]
             let tableNameEnd = endLanguageValue[2]
-            let querySustInit = "insert into \(tableNameInit) (word, genre, plural) values ('\(sustantive.initialWord)', '\(sustantive.initialGenre)', '\(sustantive.initialPlural)')"
-            let querySustEnd = "insert into \(tableNameEnd) (word, genre, plural) values ('\(sustantive.endWord)', '\(sustantive.endGenre)', '\(sustantive.endPlural)')"
+            let uuid = UUID().uuidString
+            let querySustInit = "insert into \(tableNameInit) (id, word, genre, plural) values ('\(uuid)', '\(sustantive.initialWord)', '\(sustantive.initialGenre)', '\(sustantive.initialPlural)')"
+            let querySustEnd = "insert into \(tableNameEnd) (id, word, genre, plural) values ('\(uuid)', '\(sustantive.endWord)', '\(sustantive.endGenre)', '\(sustantive.endPlural)')"
             dbManager.execute(querySustInit)
             dbManager.execute(querySustEnd)
         } else if let verb = word as? Verb {
             let tableNameInit = initLanguageValue[3]
             let tableNameEnd = endLanguageValue[3]
-            let queryVerbInit = "insert into \(tableNameInit) (word, participle) values ('\(verb.initialWord)', '\(verb.initialPart)')"
-            let queryVerbEnd = "insert into \(tableNameEnd) (word, participle) values ('\(verb.endWord)', '\(verb.endPart)')"
+            let uuid = UUID().uuidString
+            let queryVerbInit = "insert into \(tableNameInit) (id, word, participle) values ('\(uuid)', '\(verb.initialWord)', '\(verb.initialPart)')"
+            let queryVerbEnd = "insert into \(tableNameEnd) (id, word, participle) values ('\(uuid)', '\(verb.endWord)', '\(verb.endPart)')"
             dbManager.execute(queryVerbInit)
             dbManager.execute(queryVerbEnd)
         }
@@ -103,15 +104,15 @@ class WordsAPI {
         if let sustantive = word as? Sustantive {
             let tableNameInit = initLanguageValue[2]
             let tableNameEnd = endLanguageValue[2]
-            let querySustInit = "delete from \(tableNameInit) where word = '\(sustantive.initialWord)'"
-            let querySustEnd = "delete from \(tableNameEnd)  where word = '\(sustantive.endWord)'"
+            let querySustInit = "delete from \(tableNameInit) where id = '\(sustantive.id)'"
+            let querySustEnd = "delete from \(tableNameEnd)  where id = '\(sustantive.id)'"
             dbManager.execute(querySustInit)
             dbManager.execute(querySustEnd)
         } else if let verb = word as? Verb {
             let tableNameInit = initLanguageValue[3]
             let tableNameEnd = endLanguageValue[3]
-            let queryVerbInit = "delete from \(tableNameInit) where word = '\(verb.initialWord)'"
-            let queryVerbEnd = "delete from \(tableNameEnd) where word = '\(verb.endWord)'"
+            let queryVerbInit = "delete from \(tableNameInit) where id = '\(verb.id)'"
+            let queryVerbEnd = "delete from \(tableNameEnd) where id = '\(verb.id)'"
             dbManager.execute(queryVerbInit)
             dbManager.execute(queryVerbEnd)
         }
@@ -134,6 +135,13 @@ class WordsAPI {
             let querySustEnd = "update \(tableNameEnd) set word = '\(sustantive.endWord)', genre = '\(sustantive.endGenre)', plural = '\(sustantive.endPlural)' where id = '\(sustantive.id)'"
             dbManager.execute(querySustInit)
             dbManager.execute(querySustEnd)
+        } else if let verb = word as? Verb {
+            let tableNameInit = initLanguageValue[3]
+            let tableNameEnd = endLanguageValue[3]
+            let queryVerbInit = "update \(tableNameInit) set word = '\(verb.initialWord)', participle = '\(verb.initialPart)' where id = '\(verb.id)'"
+            let queryVerbEnd = "update \(tableNameEnd) set word = '\(verb.endWord)', participle = '\(verb.endPart)' where id = '\(verb.id)'"
+            dbManager.execute(queryVerbInit)
+            dbManager.execute(queryVerbEnd)
         }
     }
 
