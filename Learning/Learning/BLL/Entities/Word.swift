@@ -17,4 +17,8 @@ class Word {
         self.initialWord = initialWord
         self.endWord = endWord
     }
+
+    func getAddQueries(into tables: [String]) -> [String] {
+        preconditionFailure("This method must be overridden")
+    }
 }

@@ -20,4 +20,14 @@ class Sustantive: Word {
         self.endPlural = endPlural
         super.init(id: id, initialWord: initialWord, endWord: endWord)
     }
+
+    override func getAddQueries(into tables: [String]) -> [String] {
+        let tableNameInit = tables[0]
+        let tableNameEnd = tables[1]
+        let uuid = UUID().uuidString
+        let querySustInit = "insert into \(tableNameInit) (id, word, genre, plural) values ('\(uuid)', '\(initialWord)', '\(initialGenre)', '\(initialPlural)')"
+        let querySustEnd = "insert into \(tableNameEnd) (id, word, genre, plural) values ('\(uuid)', '\(endWord)', '\(endGenre)', '\(endPlural)')"
+        return [querySustInit, querySustEnd]
+    }
+
 }

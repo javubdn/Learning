@@ -16,4 +16,14 @@ class Verb: Word {
         self.endPart = endPart
         super.init(id: id, initialWord: initialWord, endWord: endWord)
     }
+
+    override func getAddQueries(into tables: [String]) -> [String] {
+        let tableNameInit = tables[0]
+        let tableNameEnd = tables[1]
+        let uuid = UUID().uuidString
+        let queryVerbInit = "insert into \(tableNameInit) (id, word, participle) values ('\(uuid)', '\(initialWord)', '\(initialPart)')"
+        let queryVerbEnd = "insert into \(tableNameEnd) (id, word, participle) values ('\(uuid)', '\(endWord)', '\(endPart)')"
+        return [queryVerbInit, queryVerbEnd]
+    }
+    
 }

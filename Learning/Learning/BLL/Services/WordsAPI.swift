@@ -70,24 +70,24 @@ class WordsAPI {
             return
         }
 
-        if let sustantive = word as? Sustantive {
-            let tableNameInit = initLanguageValue[2]
-            let tableNameEnd = endLanguageValue[2]
-            let uuid = UUID().uuidString
-            let querySustInit = "insert into \(tableNameInit) (id, word, genre, plural) values ('\(uuid)', '\(sustantive.initialWord)', '\(sustantive.initialGenre)', '\(sustantive.initialPlural)')"
-            let querySustEnd = "insert into \(tableNameEnd) (id, word, genre, plural) values ('\(uuid)', '\(sustantive.endWord)', '\(sustantive.endGenre)', '\(sustantive.endPlural)')"
-            dbManager.execute(querySustInit)
-            dbManager.execute(querySustEnd)
-        } else if let verb = word as? Verb {
-            let tableNameInit = initLanguageValue[3]
-            let tableNameEnd = endLanguageValue[3]
-            let uuid = UUID().uuidString
-            let queryVerbInit = "insert into \(tableNameInit) (id, word, participle) values ('\(uuid)', '\(verb.initialWord)', '\(verb.initialPart)')"
-            let queryVerbEnd = "insert into \(tableNameEnd) (id, word, participle) values ('\(uuid)', '\(verb.endWord)', '\(verb.endPart)')"
-            dbManager.execute(queryVerbInit)
-            dbManager.execute(queryVerbEnd)
+        let tableNameInit: String
+        let tableNameEnd: String
+
+        switch word {
+        case is Sustantive:
+            tableNameInit = initLanguageValue[2]
+            tableNameEnd = endLanguageValue[2]
+        case is Verb:
+            tableNameInit = initLanguageValue[3]
+            tableNameEnd = endLanguageValue[3]
+        default:
+            return
         }
-        
+
+        for query in word.getAddQueries(into: [tableNameInit, tableNameEnd]) {
+            dbManager.execute(query)
+        }
+
     }
 
     func removeWord(_ word: Word) {
