@@ -101,21 +101,24 @@ class WordsAPI {
             return
         }
 
-        if let sustantive = word as? Sustantive {
-            let tableNameInit = initLanguageValue[2]
-            let tableNameEnd = endLanguageValue[2]
-            let querySustInit = "delete from \(tableNameInit) where id = '\(sustantive.id)'"
-            let querySustEnd = "delete from \(tableNameEnd)  where id = '\(sustantive.id)'"
-            dbManager.execute(querySustInit)
-            dbManager.execute(querySustEnd)
-        } else if let verb = word as? Verb {
-            let tableNameInit = initLanguageValue[3]
-            let tableNameEnd = endLanguageValue[3]
-            let queryVerbInit = "delete from \(tableNameInit) where id = '\(verb.id)'"
-            let queryVerbEnd = "delete from \(tableNameEnd) where id = '\(verb.id)'"
-            dbManager.execute(queryVerbInit)
-            dbManager.execute(queryVerbEnd)
+        let tableNameInit: String
+        let tableNameEnd: String
+
+        switch word {
+        case is Sustantive:
+            tableNameInit = initLanguageValue[2]
+            tableNameEnd = endLanguageValue[2]
+        case is Verb:
+            tableNameInit = initLanguageValue[3]
+            tableNameEnd = endLanguageValue[3]
+        default:
+            return
         }
+
+        for query in word.getRemoveQueries(from: [tableNameInit, tableNameEnd]) {
+            dbManager.execute(query)
+        }
+
     }
 
     func updateWord(_ word: Word) {

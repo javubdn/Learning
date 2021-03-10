@@ -21,4 +21,13 @@ class Word {
     func getAddQueries(into tables: [String]) -> [String] {
         preconditionFailure("This method must be overridden")
     }
+
+    func getRemoveQueries(from tables: [String]) -> [String] {
+        let tableNameInit = tables[0]
+        let tableNameEnd = tables[1]
+        let querySustInit = "delete from \(tableNameInit) where id = '\(id)'"
+        let querySustEnd = "delete from \(tableNameEnd)  where id = '\(id)'"
+        return [querySustInit, querySustEnd]
+    }
+    
 }
