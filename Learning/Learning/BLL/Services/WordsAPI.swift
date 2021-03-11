@@ -131,21 +131,25 @@ class WordsAPI {
               let endLanguageValue = availableLanguages[1] as? [String] else {
             return
         }
-        if let sustantive = word as? Sustantive {
-            let tableNameInit = initLanguageValue[2]
-            let tableNameEnd = endLanguageValue[2]
-            let querySustInit = "update \(tableNameInit) set word = '\(sustantive.initialWord)', genre = '\(sustantive.initialGenre)', plural = '\(sustantive.initialPlural)' where id = '\(sustantive.id)'"
-            let querySustEnd = "update \(tableNameEnd) set word = '\(sustantive.endWord)', genre = '\(sustantive.endGenre)', plural = '\(sustantive.endPlural)' where id = '\(sustantive.id)'"
-            dbManager.execute(querySustInit)
-            dbManager.execute(querySustEnd)
-        } else if let verb = word as? Verb {
-            let tableNameInit = initLanguageValue[3]
-            let tableNameEnd = endLanguageValue[3]
-            let queryVerbInit = "update \(tableNameInit) set word = '\(verb.initialWord)', participle = '\(verb.initialPart)' where id = '\(verb.id)'"
-            let queryVerbEnd = "update \(tableNameEnd) set word = '\(verb.endWord)', participle = '\(verb.endPart)' where id = '\(verb.id)'"
-            dbManager.execute(queryVerbInit)
-            dbManager.execute(queryVerbEnd)
+
+        let tableNameInit: String
+        let tableNameEnd: String
+
+        switch word {
+        case is Sustantive:
+            tableNameInit = initLanguageValue[2]
+            tableNameEnd = endLanguageValue[2]
+        case is Verb:
+            tableNameInit = initLanguageValue[3]
+            tableNameEnd = endLanguageValue[3]
+        default:
+            return
         }
+
+        for query in word.getUpdateQueries(from: [tableNameInit, tableNameEnd]) {
+            dbManager.execute(query)
+        }
+
     }
 
 }

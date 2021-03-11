@@ -29,5 +29,9 @@ class Word {
         let querySustEnd = "delete from \(tableNameEnd)  where id = '\(id)'"
         return [querySustInit, querySustEnd]
     }
+
+    func getUpdateQueries(from tables: [String]) -> [String] {
+        preconditionFailure("This method must be overridden")
+    }
     
 }

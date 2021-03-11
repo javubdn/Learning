@@ -30,4 +30,11 @@ class Sustantive: Word {
         return [querySustInit, querySustEnd]
     }
 
+    override func getUpdateQueries(from tables: [String]) -> [String] {
+        let tableNameInit = tables[0]
+        let tableNameEnd = tables[1]
+        let querySustInit = "update \(tableNameInit) set word = '\(initialWord)', genre = '\(initialGenre)', plural = '\(initialPlural)' where id = '\(id)'"
+        let querySustEnd = "update \(tableNameEnd) set word = '\(endWord)', genre = '\(endGenre)', plural = '\(endPlural)' where id = '\(id)'"
+        return [querySustInit, querySustEnd]
+    }
 }

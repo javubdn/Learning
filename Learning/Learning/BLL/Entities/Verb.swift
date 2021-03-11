@@ -25,5 +25,13 @@ class Verb: Word {
         let queryVerbEnd = "insert into \(tableNameEnd) (id, word, participle) values ('\(uuid)', '\(endWord)', '\(endPart)')"
         return [queryVerbInit, queryVerbEnd]
     }
+
+    override func getUpdateQueries(from tables: [String]) -> [String] {
+        let tableNameInit = tables[0]
+        let tableNameEnd = tables[1]
+        let queryVerbInit = "update \(tableNameInit) set word = '\(initialWord)', participle = '\(initialPart)' where id = '\(id)'"
+        let queryVerbEnd = "update \(tableNameEnd) set word = '\(endWord)', participle = '\(endPart)' where id = '\(id)'"
+        return [queryVerbInit, queryVerbEnd]
+    }
     
 }
