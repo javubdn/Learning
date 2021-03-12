@@ -61,30 +61,7 @@ class WordsAPI {
 
     func addWord(_ word: Word) {
         let dbManager = DBManager(with: "wordsdb.sql")
-        let queryLanguages = "select * from languages"
-        guard let availableLanguages = dbManager.query(queryLanguages) else {
-            return
-        }
-        guard let initLanguageValue = availableLanguages[0] as? [String],
-              let endLanguageValue = availableLanguages[1] as? [String] else {
-            return
-        }
-
-        let tableNameInit: String
-        let tableNameEnd: String
-
-        switch word {
-        case is Sustantive:
-            tableNameInit = initLanguageValue[2]
-            tableNameEnd = endLanguageValue[2]
-        case is Verb:
-            tableNameInit = initLanguageValue[3]
-            tableNameEnd = endLanguageValue[3]
-        default:
-            return
-        }
-
-        for query in word.getAddQueries(into: [tableNameInit, tableNameEnd]) {
+        for query in word.getAddQueries() {
             dbManager.execute(query)
         }
 
@@ -92,30 +69,7 @@ class WordsAPI {
 
     func removeWord(_ word: Word) {
         let dbManager = DBManager(with: "wordsdb.sql")
-        let queryLanguages = "select * from languages"
-        guard let availableLanguages = dbManager.query(queryLanguages) else {
-            return
-        }
-        guard let initLanguageValue = availableLanguages[0] as? [String],
-              let endLanguageValue = availableLanguages[1] as? [String] else {
-            return
-        }
-
-        let tableNameInit: String
-        let tableNameEnd: String
-
-        switch word {
-        case is Sustantive:
-            tableNameInit = initLanguageValue[2]
-            tableNameEnd = endLanguageValue[2]
-        case is Verb:
-            tableNameInit = initLanguageValue[3]
-            tableNameEnd = endLanguageValue[3]
-        default:
-            return
-        }
-
-        for query in word.getRemoveQueries(from: [tableNameInit, tableNameEnd]) {
+        for query in word.getRemoveQueries() {
             dbManager.execute(query)
         }
 
@@ -123,30 +77,7 @@ class WordsAPI {
 
     func updateWord(_ word: Word) {
         let dbManager = DBManager(with: "wordsdb.sql")
-        let queryLanguages = "select * from languages"
-        guard let availableLanguages = dbManager.query(queryLanguages) else {
-            return
-        }
-        guard let initLanguageValue = availableLanguages[0] as? [String],
-              let endLanguageValue = availableLanguages[1] as? [String] else {
-            return
-        }
-
-        let tableNameInit: String
-        let tableNameEnd: String
-
-        switch word {
-        case is Sustantive:
-            tableNameInit = initLanguageValue[2]
-            tableNameEnd = endLanguageValue[2]
-        case is Verb:
-            tableNameInit = initLanguageValue[3]
-            tableNameEnd = endLanguageValue[3]
-        default:
-            return
-        }
-
-        for query in word.getUpdateQueries(from: [tableNameInit, tableNameEnd]) {
+        for query in word.getUpdateQueries() {
             dbManager.execute(query)
         }
 

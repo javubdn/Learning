@@ -17,7 +17,10 @@ class Verb: Word {
         super.init(id: id, initialWord: initialWord, endWord: endWord)
     }
 
-    override func getAddQueries(into tables: [String]) -> [String] {
+    override func getAddQueries() -> [String] {
+        guard let tables = getTables() else {
+            return []
+        }
         let tableNameInit = tables[0]
         let tableNameEnd = tables[1]
         let uuid = UUID().uuidString
@@ -26,12 +29,27 @@ class Verb: Word {
         return [queryVerbInit, queryVerbEnd]
     }
 
-    override func getUpdateQueries(from tables: [String]) -> [String] {
+    override func getUpdateQueries() -> [String] {
+        guard let tables = getTables() else {
+            return []
+        }
         let tableNameInit = tables[0]
         let tableNameEnd = tables[1]
         let queryVerbInit = "update \(tableNameInit) set word = '\(initialWord)', participle = '\(initialPart)' where id = '\(id)'"
         let queryVerbEnd = "update \(tableNameEnd) set word = '\(endWord)', participle = '\(endPart)' where id = '\(id)'"
         return [queryVerbInit, queryVerbEnd]
     }
-    
+
+    override func getTables() -> [String]? {
+        let dbManager = DBManager(with: "wordsdb.sql")
+        let queryLanguages = "select * from languages"
+        guard let availableLanguages = dbManager.query(queryLanguages) else {
+            return nil
+        }
+        guard let initLanguageValue = availableLanguages[0] as? [String],
+              let endLanguageValue = availableLanguages[1] as? [String] else {
+            return nil
+        }
+        return [initLanguageValue[3], endLanguageValue[3]]
+    }
 }

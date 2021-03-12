@@ -18,11 +18,14 @@ class Word {
         self.endWord = endWord
     }
 
-    func getAddQueries(into tables: [String]) -> [String] {
+    func getAddQueries() -> [String] {
         preconditionFailure("This method must be overridden")
     }
 
-    func getRemoveQueries(from tables: [String]) -> [String] {
+    func getRemoveQueries() -> [String] {
+        guard let tables = getTables() else {
+            return []
+        }
         let tableNameInit = tables[0]
         let tableNameEnd = tables[1]
         let querySustInit = "delete from \(tableNameInit) where id = '\(id)'"
@@ -30,8 +33,12 @@ class Word {
         return [querySustInit, querySustEnd]
     }
 
-    func getUpdateQueries(from tables: [String]) -> [String] {
+    func getUpdateQueries() -> [String] {
         preconditionFailure("This method must be overridden")
+    }
+
+    func getTables() -> [String]? {
+        return nil
     }
     
 }
