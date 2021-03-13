@@ -19,6 +19,13 @@ class WordsAPI {
               let endLanguageValue = availableLanguages[endLanguage] as? [String] else {
             return nil
         }
+        var listWords = getSustantives(initLanguageValue: initLanguageValue, endLanguageValue: endLanguageValue)
+        listWords.append(contentsOf: getVerbs(initLanguageValue: initLanguageValue, endLanguageValue: endLanguageValue))
+        return listWords
+    }
+
+    private func getSustantives(initLanguageValue: [String], endLanguageValue: [String]) -> [Word] {
+        let dbManager = DBManager(with: "wordsdb.sql")
         var listWords = [Word]()
         let querySustInit = "select * from \(initLanguageValue[2])"
         let sustInit = dbManager.query(querySustInit)
@@ -38,12 +45,16 @@ class WordsAPI {
                 listWords.append(sustantive)
             }
         }
+        return listWords
+    }
 
+    private func getVerbs(initLanguageValue: [String], endLanguageValue: [String]) -> [Word] {
+        let dbManager = DBManager(with: "wordsdb.sql")
         let queryVerbInit = "select * from \(initLanguageValue[3])"
         let verbInit = dbManager.query(queryVerbInit)
         let queryVerbEnd = "select * from \(endLanguageValue[3])"
         let verbEnd = dbManager.query(queryVerbEnd)
-
+        var listWords = [Word]()
         if let verbInit = verbInit as? [[String]],
            let verbEnd = verbEnd as? [[String]] {
             for index in 0..<verbInit.count {

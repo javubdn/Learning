@@ -33,6 +33,7 @@ class GameViewController: UIViewController {
         title = "Juego"
         tabBarItem.title = "Juego"
         progressView.maximumValue = maximumScore
+        solutionTextField.autocorrectionType = .no
     }
 
     override func viewWillAppear(_ animated: Bool) {
