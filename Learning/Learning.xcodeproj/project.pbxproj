@@ -31,6 +31,7 @@
 		BC9C682525ACD19A004A77CC /* WordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C682325ACD19A004A77CC /* WordTableViewCell.xib */; };
 		BC9C682925ADB327004A77CC /* CurrentWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C682725ADB326004A77CC /* CurrentWordViewController.swift */; };
 		BC9C682A25ADB327004A77CC /* CurrentWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C682825ADB326004A77CC /* CurrentWordViewController.xib */; };
+		BCC85ED025FE266C0085B621 /* Adjective.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC85ECF25FE266A0085B621 /* Adjective.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		BC9C682725ADB326004A77CC /* CurrentWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWordViewController.swift; sourceTree = "<group>"; };
 		BC9C682825ADB326004A77CC /* CurrentWordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrentWordViewController.xib; sourceTree = "<group>"; };
 		BC9C684C25ADB6BC004A77CC /* Learning copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Learning copy-Info.plist"; path = "/Users/javicastillorisco/Github/Learning/Learning/Learning copy-Info.plist"; sourceTree = "<absolute>"; };
+		BCC85ECF25FE266A0085B621 /* Adjective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adjective.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				BC9C680C25AC75A9004A77CC /* Word.swift */,
 				BC9C680F25AC7832004A77CC /* Score.swift */,
 				BC9C681225ACCBB7004A77CC /* Verb.swift */,
+				BCC85ECF25FE266A0085B621 /* Adjective.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				BC9C67E825AAF978004A77CC /* InitGameViewController.swift in Sources */,
 				BC9C682925ADB327004A77CC /* CurrentWordViewController.swift in Sources */,
 				BC9C67EE25AAFD57004A77CC /* ItemSelector.swift in Sources */,
+				BCC85ED025FE266C0085B621 /* Adjective.swift in Sources */,
 				BC9C67CE25AAF2B2004A77CC /* ViewController.swift in Sources */,
 				BC9C680D25AC75A9004A77CC /* Word.swift in Sources */,
 				BC9C67FC25AC6A39004A77CC /* GameViewController.swift in Sources */,
