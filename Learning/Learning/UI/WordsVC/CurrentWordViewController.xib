@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CurrentWordViewController" customModule="Learning" customModuleProvider="target">
             <connections>
+                <outlet property="adjectiveView" destination="HBv-ou-frF" id="IOQ-Dd-eJx"/>
                 <outlet property="mainScrollView" destination="e2m-Uc-K1g" id="hmr-XF-xgC"/>
                 <outlet property="sustantiveView" destination="oC3-Xr-DDM" id="NI9-95-3hx"/>
                 <outlet property="titleLabel" destination="wYM-dh-JfH" id="kR6-MJ-ksV"/>
@@ -69,6 +70,10 @@
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="edC-W9-XJJ" userLabel="verbView">
+                                                    <rect key="frame" x="0.0" y="500" width="374" height="0.0"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                </view>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HBv-ou-frF" userLabel="adjectiveView">
                                                     <rect key="frame" x="0.0" y="500" width="374" height="0.0"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>

@@ -21,14 +21,17 @@ class CurrentWordViewController: UIViewController {
     private let TAG_SUST_PLURAL = 4
     private let TAG_VERB_WORD = 5
     private let TAG_VERB_PART = 6
-    private let TAG_EDIT_BUTTON = 7
-    private let TAG_ACCEPT_BUTTON = 8
-    private let TAG_CANCEL_BUTTON = 9
+    private let TAG_ADJ_WORD = 7
+    private let TAG_EDIT_BUTTON = 8
+    private let TAG_ACCEPT_BUTTON = 9
+    private let TAG_CANCEL_BUTTON = 10
+
 
     private var languages: [String] = []
 
     private var sustantiveTextfields: [UITextField] = []
     private var verbTextfields: [UITextField] = []
+    private var adjectiveTextfields: [UITextField] = []
     private var textfields: [[UITextField]] = []
 
     private var mode: Mode = .new
@@ -40,6 +43,7 @@ class CurrentWordViewController: UIViewController {
     @IBOutlet weak var typeItemSelector: ItemSelector!
     @IBOutlet weak var sustantiveView: UIView!
     @IBOutlet weak var verbView: UIView!
+    @IBOutlet weak var adjectiveView: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +51,7 @@ class CurrentWordViewController: UIViewController {
     }
 
     private func prepareScreen() {
-        typeItemSelector.listItems = ["Sustantivo", "Verbo"]
+        typeItemSelector.listItems = ["Sustantivo", "Verbo", "Adjetivo"]
         typeItemSelector.itemId = .initial
         typeItemSelector.delegate = self
 
@@ -61,7 +65,8 @@ class CurrentWordViewController: UIViewController {
         }
         prepareSustantiveView()
         prepareVerbView()
-        textfields = [sustantiveTextfields, verbTextfields]
+        prepareAdjectiveView()
+        textfields = [sustantiveTextfields, verbTextfields, adjectiveTextfields]
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
@@ -75,6 +80,7 @@ class CurrentWordViewController: UIViewController {
         typeWordStackView.isHidden = self.mode != .new
         sustantiveView.isHidden = true
         verbView.isHidden = true
+        adjectiveView.isHidden = true
         if mode != .new {
             if let sustantive = currentWord as? Sustantive {
                 sustantiveView.isHidden = false
@@ -82,16 +88,26 @@ class CurrentWordViewController: UIViewController {
             } else if let verb = currentWord as? Verb {
                 verbView.isHidden = false
                 updateVerbView(verb)
+            } else if let adjective = currentWord as? Adjective {
+                adjectiveView.isHidden = false
+                updateAdjectiveView(adjective)
             }
         } else {
             if typeItemSelector.currentIndex == 0 {
                 sustantiveView.isHidden = false
                 verbView.isHidden = true
+                adjectiveView.isHidden = true
                 updateSustantiveView(nil)
             } else if typeItemSelector.currentIndex == 1 {
                 sustantiveView.isHidden = true
                 verbView.isHidden = false
+                adjectiveView.isHidden = true
                 updateVerbView(nil)
+            } else if typeItemSelector.currentIndex == 2 {
+                sustantiveView.isHidden = true
+                verbView.isHidden = true
+                adjectiveView.isHidden = false
+                updateAdjectiveView(nil)
             }
         }
     }
@@ -160,6 +176,31 @@ class CurrentWordViewController: UIViewController {
         }
         if let partEnd = verbView.viewWithTag(TAG_VERB_PART * 100 + 1) as? UITextField {
             partEnd.text = verb?.endPart
+        }
+
+    }
+
+    private func updateAdjectiveView(_ adjective: Adjective?) {
+        for textField in adjectiveTextfields {
+            textField.isEnabled = mode != .info
+        }
+        if let addButton = adjectiveView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
+            addButton.isHidden = mode != .new
+        }
+        if let editButton = adjectiveView.viewWithTag(TAG_EDIT_BUTTON) as? UIButton {
+            editButton.isHidden = mode != .info
+        }
+        if let acceptButton = adjectiveView.viewWithTag(TAG_ACCEPT_BUTTON) as? UIButton {
+            acceptButton.isHidden = mode != .edit
+        }
+        if let cancelButton = adjectiveView.viewWithTag(TAG_CANCEL_BUTTON) as? UIButton {
+            cancelButton.isHidden = mode != .edit
+        }
+        if let adjInit = adjectiveView.viewWithTag(TAG_ADJ_WORD * 100 + 0) as? UITextField {
+            adjInit.text = adjective?.initialWord
+        }
+        if let adjEnd = adjectiveView.viewWithTag(TAG_ADJ_WORD * 100 + 1) as? UITextField {
+            adjEnd.text = adjective?.endWord
         }
 
     }
@@ -341,6 +382,75 @@ class CurrentWordViewController: UIViewController {
         verbView.addConstraints(stackView_V)
     }
 
+    private func prepareAdjectiveView() {
+        let verticalStack = UIStackView()
+        verticalStack.axis = .vertical
+        verticalStack.spacing = 30
+        verticalStack.alignment = .fill
+        verticalStack.distribution = .fill
+
+        for language in languages {
+
+            let nameLabel = UILabel()
+            nameLabel.text = "Palabra en \(language)"
+            let nameTextField = UITextField()
+            nameTextField.tag = TAG_ADJ_WORD * 100 + languages.firstIndex(of: language)!
+            nameTextField.borderStyle = .roundedRect
+            let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
+            nameStack.axis = .horizontal
+            nameStack.spacing = 20
+            nameStack.alignment = .fill
+            nameStack.distribution = .fillEqually
+
+            verticalStack.addArrangedSubview(nameStack)
+            adjectiveTextfields.append(contentsOf: [nameTextField])
+        }
+
+        for textField in adjectiveTextfields {
+            textField.delegate = self
+            textField.returnKeyType = .next
+        }
+        adjectiveTextfields.last?.returnKeyType = .default
+
+        let addButton = UIButton()
+        addButton.tag = TAG_ADD_BUTTON
+        addButton.setTitle("Añadir adjetivo", for: .normal)
+        addButton.backgroundColor = .blue
+        addButton.addTarget(self, action: #selector(addVerb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(addButton)
+
+        let editButton = UIButton()
+        editButton.setTitle("Editar adjetivo", for: .normal)
+        editButton.tag = TAG_EDIT_BUTTON
+        editButton.backgroundColor = .blue
+        editButton.addTarget(self, action: #selector(editVerb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(editButton)
+
+        let acceptButton = UIButton()
+        acceptButton.setTitle("Aceptar", for: .normal)
+        acceptButton.tag = TAG_ACCEPT_BUTTON
+        acceptButton.backgroundColor = .blue
+        acceptButton.addTarget(self, action: #selector(acceptVerb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(acceptButton)
+
+        let cancelButton = UIButton()
+        cancelButton.setTitle("Cancelar", for: .normal)
+        cancelButton.tag = TAG_CANCEL_BUTTON
+        cancelButton.backgroundColor = .blue
+        cancelButton.addTarget(self, action: #selector(cancelVerb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(cancelButton)
+
+        verticalStack.translatesAutoresizingMaskIntoConstraints = false
+        adjectiveView.addSubview(verticalStack)
+
+        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack":verticalStack])
+        let stackView_V: [NSLayoutConstraint]
+        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack":verticalStack])
+
+        adjectiveView.addConstraints(stackView_H)
+        adjectiveView.addConstraints(stackView_V)
+    }
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -510,6 +620,10 @@ extension CurrentWordViewController: ItemSelectorDelegate {
                 verbView.isHidden = true
                 self.view.bringSubviewToFront(sustantiveView)
             } else if selector.currentIndex == 1 {
+                sustantiveView.isHidden = true
+                verbView.isHidden = false
+                self.view.bringSubviewToFront(verbView)
+            } else if selector.currentIndex == 2 {
                 sustantiveView.isHidden = true
                 verbView.isHidden = false
                 self.view.bringSubviewToFront(verbView)
