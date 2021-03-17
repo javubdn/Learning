@@ -42,7 +42,7 @@ class Adjective: Word {
               let endLanguageValue = availableLanguages[1] as? [String] else {
             return nil
         }
-        return [initLanguageValue[3], endLanguageValue[3]]
+        return [initLanguageValue[4], endLanguageValue[4]]
     }
 
 }

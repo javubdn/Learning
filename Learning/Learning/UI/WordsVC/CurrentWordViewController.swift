@@ -416,28 +416,28 @@ class CurrentWordViewController: UIViewController {
         addButton.tag = TAG_ADD_BUTTON
         addButton.setTitle("Añadir adjetivo", for: .normal)
         addButton.backgroundColor = .blue
-        addButton.addTarget(self, action: #selector(addVerb), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addAdjective), for: .touchUpInside)
         verticalStack.addArrangedSubview(addButton)
 
         let editButton = UIButton()
         editButton.setTitle("Editar adjetivo", for: .normal)
         editButton.tag = TAG_EDIT_BUTTON
         editButton.backgroundColor = .blue
-        editButton.addTarget(self, action: #selector(editVerb), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editAdjective), for: .touchUpInside)
         verticalStack.addArrangedSubview(editButton)
 
         let acceptButton = UIButton()
         acceptButton.setTitle("Aceptar", for: .normal)
         acceptButton.tag = TAG_ACCEPT_BUTTON
         acceptButton.backgroundColor = .blue
-        acceptButton.addTarget(self, action: #selector(acceptVerb), for: .touchUpInside)
+        acceptButton.addTarget(self, action: #selector(acceptAdjective), for: .touchUpInside)
         verticalStack.addArrangedSubview(acceptButton)
 
         let cancelButton = UIButton()
         cancelButton.setTitle("Cancelar", for: .normal)
         cancelButton.tag = TAG_CANCEL_BUTTON
         cancelButton.backgroundColor = .blue
-        cancelButton.addTarget(self, action: #selector(cancelVerb), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelAdjective), for: .touchUpInside)
         verticalStack.addArrangedSubview(cancelButton)
 
         verticalStack.translatesAutoresizingMaskIntoConstraints = false
@@ -490,6 +490,15 @@ class CurrentWordViewController: UIViewController {
         return nil
     }
 
+    private func validateAdjectiveFields() -> UITextField? {
+        for adjectiveTextfield in adjectiveTextfields {
+            if adjectiveTextfield.text == "" {
+                return adjectiveTextfield
+            }
+        }
+        return nil
+    }
+
     func setMode(_ mode: Mode) {
         self.mode = mode
     }
@@ -506,6 +515,9 @@ class CurrentWordViewController: UIViewController {
         }
         for verbTextfield in verbTextfields {
             verbTextfield.text = ""
+        }
+        for adjectiveTextfiel in adjectiveTextfields {
+            adjectiveTextfiel.text = ""
         }
     }
 
@@ -604,6 +616,44 @@ class CurrentWordViewController: UIViewController {
 
     @objc
     func cancelVerb(sender: UIButton) {
+        mode = .info
+        updateScreen()
+    }
+
+    @objc
+    func addAdjective(sender: UIButton) {
+        if let missingTextfield = validateAdjectiveFields() {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
+        let wordsAPI = WordsAPI()
+        let word = Adjective(id: "", initialWord: adjectiveTextfields[0].text!, endWord: adjectiveTextfields[1].text!)
+        wordsAPI.addWord(word)
+        clearFields()
+    }
+
+    @objc
+    func editAdjective(sender: UIButton) {
+        mode = .edit
+        updateScreen()
+    }
+
+    @objc
+    func acceptAdjective(sender: UIButton) {
+        if let missingTextfield = validateAdjectiveFields() {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
+        let word = Adjective(id: currentWord!.id, initialWord: adjectiveTextfields[0].text!, endWord: adjectiveTextfields[1].text!)
+        let wordsAPI = WordsAPI()
+        currentWord = word
+        wordsAPI.updateWord(word)
+        mode = .info
+        updateScreen()
+    }
+
+    @objc
+    func cancelAdjective(sender: UIButton) {
         mode = .info
         updateScreen()
     }
