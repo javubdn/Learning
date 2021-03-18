@@ -32,6 +32,7 @@
 		BC9C682925ADB327004A77CC /* CurrentWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C682725ADB326004A77CC /* CurrentWordViewController.swift */; };
 		BC9C682A25ADB327004A77CC /* CurrentWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C682825ADB326004A77CC /* CurrentWordViewController.xib */; };
 		BCC85ED025FE266C0085B621 /* Adjective.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC85ECF25FE266A0085B621 /* Adjective.swift */; };
+		BCC85ED3260341900085B621 /* Adverb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC85ED2260341900085B621 /* Adverb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		BC9C682825ADB326004A77CC /* CurrentWordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrentWordViewController.xib; sourceTree = "<group>"; };
 		BC9C684C25ADB6BC004A77CC /* Learning copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Learning copy-Info.plist"; path = "/Users/javicastillorisco/Github/Learning/Learning/Learning copy-Info.plist"; sourceTree = "<absolute>"; };
 		BCC85ECF25FE266A0085B621 /* Adjective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adjective.swift; sourceTree = "<group>"; };
+		BCC85ED2260341900085B621 /* Adverb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adverb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 				BC9C680F25AC7832004A77CC /* Score.swift */,
 				BC9C681225ACCBB7004A77CC /* Verb.swift */,
 				BCC85ECF25FE266A0085B621 /* Adjective.swift */,
+				BCC85ED2260341900085B621 /* Adverb.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 			files = (
 				BC9C681325ACCBB7004A77CC /* Verb.swift in Sources */,
 				BC9C680125AC6AB9004A77CC /* ProgressGame.swift in Sources */,
+				BCC85ED3260341900085B621 /* Adverb.swift in Sources */,
 				BC9C67F425AB6E97004A77CC /* DBManager.swift in Sources */,
 				BC9C680525AC72EE004A77CC /* WordsAPI.swift in Sources */,
 				BC9C681825ACCE11004A77CC /* WordsViewController.swift in Sources */,

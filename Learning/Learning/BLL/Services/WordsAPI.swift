@@ -22,6 +22,7 @@ class WordsAPI {
         var listWords = getSustantives(initLanguageValue: initLanguageValue, endLanguageValue: endLanguageValue)
         listWords.append(contentsOf: getVerbs(initLanguageValue: initLanguageValue, endLanguageValue: endLanguageValue))
         listWords.append(contentsOf: getAdjectives(initLanguageValue: initLanguageValue, endLanguageValue: endLanguageValue))
+        listWords.append(contentsOf: getAdverbs(initLanguageValue: initLanguageValue, endLanguageValue: endLanguageValue))
         return listWords
     }
 
@@ -74,16 +75,34 @@ class WordsAPI {
     private func getAdjectives(initLanguageValue: [String], endLanguageValue: [String]) -> [Word] {
         let dbManager = DBManager(with: "wordsdb.sql")
         var listWords = [Word]()
-        let querySustInit = "select * from \(initLanguageValue[4])"
-        let sustInit = dbManager.query(querySustInit)
-        let querySustEnd = "select * from \(endLanguageValue[4])"
-        let sustEnd = dbManager.query(querySustEnd)
+        let queryAdjInit = "select * from \(initLanguageValue[4])"
+        let adjInit = dbManager.query(queryAdjInit)
+        let queryAdjEnd = "select * from \(endLanguageValue[4])"
+        let adjEnd = dbManager.query(queryAdjEnd)
 
-        if let adjInit = sustInit as? [[String]],
-           let adjEnd = sustEnd as? [[String]] {
+        if let adjInit = adjInit as? [[String]],
+           let adjEnd = adjEnd as? [[String]] {
             for index in 0..<adjInit.count {
                 let adjective = Adjective(id: adjInit[index][0], initialWord: adjInit[index][1], endWord: adjEnd[index][1])
                 listWords.append(adjective)
+            }
+        }
+        return listWords
+    }
+
+    private func getAdverbs(initLanguageValue: [String], endLanguageValue: [String]) -> [Word] {
+        let dbManager = DBManager(with: "wordsdb.sql")
+        var listWords = [Word]()
+        let queryAdvInit = "select * from \(initLanguageValue[5])"
+        let advInit = dbManager.query(queryAdvInit)
+        let queryAdvEnd = "select * from \(endLanguageValue[5])"
+        let advEnd = dbManager.query(queryAdvEnd)
+
+        if let advInit = advInit as? [[String]],
+           let advEnd = advEnd as? [[String]] {
+            for index in 0..<advInit.count {
+                let adverb = Adverb(id: advInit[index][0], initialWord: advInit[index][1], endWord: advEnd[index][1])
+                listWords.append(adverb)
             }
         }
         return listWords
