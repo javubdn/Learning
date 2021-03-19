@@ -22,9 +22,10 @@ class CurrentWordViewController: UIViewController {
     private let TAG_VERB_WORD = 5
     private let TAG_VERB_PART = 6
     private let TAG_ADJ_WORD = 7
-    private let TAG_EDIT_BUTTON = 8
-    private let TAG_ACCEPT_BUTTON = 9
-    private let TAG_CANCEL_BUTTON = 10
+    private let TAG_ADV_WORD = 8
+    private let TAG_EDIT_BUTTON = 9
+    private let TAG_ACCEPT_BUTTON = 10
+    private let TAG_CANCEL_BUTTON = 11
 
 
     private var languages: [String] = []
@@ -32,6 +33,7 @@ class CurrentWordViewController: UIViewController {
     private var sustantiveTextfields: [UITextField] = []
     private var verbTextfields: [UITextField] = []
     private var adjectiveTextfields: [UITextField] = []
+    private var adverbTextfields: [UITextField] = []
     private var textfields: [[UITextField]] = []
 
     private var mode: Mode = .new
@@ -44,6 +46,7 @@ class CurrentWordViewController: UIViewController {
     @IBOutlet weak var sustantiveView: UIView!
     @IBOutlet weak var verbView: UIView!
     @IBOutlet weak var adjectiveView: UIView!
+    @IBOutlet weak var adverbView: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +54,7 @@ class CurrentWordViewController: UIViewController {
     }
 
     private func prepareScreen() {
-        typeItemSelector.listItems = ["Sustantivo", "Verbo", "Adjetivo"]
+        typeItemSelector.listItems = ["Sustantivo", "Verbo", "Adjetivo", "Adverbio"]
         typeItemSelector.itemId = .initial
         typeItemSelector.delegate = self
 
@@ -66,7 +69,8 @@ class CurrentWordViewController: UIViewController {
         prepareSustantiveView()
         prepareVerbView()
         prepareAdjectiveView()
-        textfields = [sustantiveTextfields, verbTextfields, adjectiveTextfields]
+        prepareAdverbView()
+        textfields = [sustantiveTextfields, verbTextfields, adjectiveTextfields, adverbTextfields]
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
@@ -81,6 +85,7 @@ class CurrentWordViewController: UIViewController {
         sustantiveView.isHidden = true
         verbView.isHidden = true
         adjectiveView.isHidden = true
+        adverbView.isHidden = true
         if mode != .new {
             if let sustantive = currentWord as? Sustantive {
                 sustantiveView.isHidden = false
@@ -91,23 +96,35 @@ class CurrentWordViewController: UIViewController {
             } else if let adjective = currentWord as? Adjective {
                 adjectiveView.isHidden = false
                 updateAdjectiveView(adjective)
+            } else if let adverb = currentWord as? Adverb {
+                adverbView.isHidden = false
+                updateAdverbView(adverb)
             }
         } else {
             if typeItemSelector.currentIndex == 0 {
                 sustantiveView.isHidden = false
                 verbView.isHidden = true
                 adjectiveView.isHidden = true
+                adverbView.isHidden = true
                 updateSustantiveView(nil)
             } else if typeItemSelector.currentIndex == 1 {
                 sustantiveView.isHidden = true
                 verbView.isHidden = false
                 adjectiveView.isHidden = true
+                adverbView.isHidden = true
                 updateVerbView(nil)
             } else if typeItemSelector.currentIndex == 2 {
                 sustantiveView.isHidden = true
                 verbView.isHidden = true
                 adjectiveView.isHidden = false
+                adverbView.isHidden = true
                 updateAdjectiveView(nil)
+            } else if typeItemSelector.currentIndex == 3 {
+                sustantiveView.isHidden = true
+                verbView.isHidden = true
+                adjectiveView.isHidden = true
+                adverbView.isHidden = false
+                updateAdverbView(nil)
             }
         }
     }
@@ -202,7 +219,30 @@ class CurrentWordViewController: UIViewController {
         if let adjEnd = adjectiveView.viewWithTag(TAG_ADJ_WORD * 100 + 1) as? UITextField {
             adjEnd.text = adjective?.endWord
         }
+    }
 
+    private func updateAdverbView(_ adverb: Adverb?) {
+        for textField in adverbTextfields {
+            textField.isEnabled = mode != .info
+        }
+        if let addButton = adverbView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
+            addButton.isHidden = mode != .new
+        }
+        if let editButton = adverbView.viewWithTag(TAG_EDIT_BUTTON) as? UIButton {
+            editButton.isHidden = mode != .info
+        }
+        if let acceptButton = adverbView.viewWithTag(TAG_ACCEPT_BUTTON) as? UIButton {
+            acceptButton.isHidden = mode != .edit
+        }
+        if let cancelButton = adverbView.viewWithTag(TAG_CANCEL_BUTTON) as? UIButton {
+            cancelButton.isHidden = mode != .edit
+        }
+        if let advInit = adverbView.viewWithTag(TAG_ADV_WORD * 100 + 0) as? UITextField {
+            advInit.text = adverb?.initialWord
+        }
+        if let advEnd = adverbView.viewWithTag(TAG_ADV_WORD * 100 + 1) as? UITextField {
+            advEnd.text = adverb?.endWord
+        }
     }
 
     private func prepareSustantiveView() {
@@ -451,12 +491,79 @@ class CurrentWordViewController: UIViewController {
         adjectiveView.addConstraints(stackView_V)
     }
 
+    private func prepareAdverbView() {
+        let verticalStack = UIStackView()
+        verticalStack.axis = .vertical
+        verticalStack.spacing = 30
+        verticalStack.alignment = .fill
+        verticalStack.distribution = .fill
+
+        for language in languages {
+            let nameLabel = UILabel()
+            nameLabel.text = "Palabra en \(language)"
+            let nameTextField = UITextField()
+            nameTextField.tag = TAG_ADV_WORD * 100 + languages.firstIndex(of: language)!
+            nameTextField.borderStyle = .roundedRect
+            let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
+            nameStack.axis = .horizontal
+            nameStack.spacing = 20
+            nameStack.alignment = .fill
+            nameStack.distribution = .fillEqually
+
+            verticalStack.addArrangedSubview(nameStack)
+            adverbTextfields.append(contentsOf: [nameTextField])
+        }
+
+        for textField in adverbTextfields {
+            textField.delegate = self
+            textField.returnKeyType = .next
+        }
+        adverbTextfields.last?.returnKeyType = .default
+
+        let addButton = UIButton()
+        addButton.tag = TAG_ADD_BUTTON
+        addButton.setTitle("Añadir adverbio", for: .normal)
+        addButton.backgroundColor = .blue
+        addButton.addTarget(self, action: #selector(addAdverb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(addButton)
+
+        let editButton = UIButton()
+        editButton.setTitle("Editar adverbio", for: .normal)
+        editButton.tag = TAG_EDIT_BUTTON
+        editButton.backgroundColor = .blue
+        editButton.addTarget(self, action: #selector(editAdverb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(editButton)
+
+        let acceptButton = UIButton()
+        acceptButton.setTitle("Aceptar", for: .normal)
+        acceptButton.tag = TAG_ACCEPT_BUTTON
+        acceptButton.backgroundColor = .blue
+        acceptButton.addTarget(self, action: #selector(acceptAdverb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(acceptButton)
+
+        let cancelButton = UIButton()
+        cancelButton.setTitle("Cancelar", for: .normal)
+        cancelButton.tag = TAG_CANCEL_BUTTON
+        cancelButton.backgroundColor = .blue
+        cancelButton.addTarget(self, action: #selector(cancelAdverb), for: .touchUpInside)
+        verticalStack.addArrangedSubview(cancelButton)
+
+        verticalStack.translatesAutoresizingMaskIntoConstraints = false
+        adverbView.addSubview(verticalStack)
+
+        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack":verticalStack])
+        let stackView_V: [NSLayoutConstraint]
+        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack":verticalStack])
+
+        adverbView.addConstraints(stackView_H)
+        adverbView.addConstraints(stackView_V)
+    }
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 
     @objc func keyboardWillShow(notification:NSNotification) {
-
         guard let userInfo = notification.userInfo else { return }
         var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         keyboardFrame = view.convert(keyboardFrame, from: nil)
@@ -467,7 +574,6 @@ class CurrentWordViewController: UIViewController {
     }
 
     @objc func keyboardWillHide(notification:NSNotification) {
-
         let contentInset:UIEdgeInsets = UIEdgeInsets.zero
         mainScrollView.contentInset = contentInset
     }
@@ -499,6 +605,15 @@ class CurrentWordViewController: UIViewController {
         return nil
     }
 
+    private func validateAdverbFields() -> UITextField? {
+        for adverbTextfield in adverbTextfields {
+            if adverbTextfield.text == "" {
+                return adverbTextfield
+            }
+        }
+        return nil
+    }
+
     func setMode(_ mode: Mode) {
         self.mode = mode
     }
@@ -516,8 +631,11 @@ class CurrentWordViewController: UIViewController {
         for verbTextfield in verbTextfields {
             verbTextfield.text = ""
         }
-        for adjectiveTextfiel in adjectiveTextfields {
-            adjectiveTextfiel.text = ""
+        for adjectiveTextfield in adjectiveTextfields {
+            adjectiveTextfield.text = ""
+        }
+        for adverbTextfield in adverbTextfields {
+            adverbTextfield.text = ""
         }
     }
 
@@ -658,6 +776,44 @@ class CurrentWordViewController: UIViewController {
         updateScreen()
     }
 
+    @objc
+    func addAdverb(sender: UIButton) {
+        if let missingTextfield = validateAdverbFields() {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
+        let wordsAPI = WordsAPI()
+        let word = Adverb(id: "", initialWord: adverbTextfields[0].text!, endWord: adverbTextfields[1].text!)
+        wordsAPI.addWord(word)
+        clearFields()
+    }
+
+    @objc
+    func editAdverb(sender: UIButton) {
+        mode = .edit
+        updateScreen()
+    }
+
+    @objc
+    func acceptAdverb(sender: UIButton) {
+        if let missingTextfield = validateAdverbFields() {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
+        let word = Adverb(id: currentWord!.id, initialWord: adverbTextfields[0].text!, endWord: adverbTextfields[1].text!)
+        let wordsAPI = WordsAPI()
+        currentWord = word
+        wordsAPI.updateWord(word)
+        mode = .info
+        updateScreen()
+    }
+
+    @objc
+    func cancelAdverb(sender: UIButton) {
+        mode = .info
+        updateScreen()
+    }
+
 }
 
 extension CurrentWordViewController: ItemSelectorDelegate {
@@ -665,31 +821,16 @@ extension CurrentWordViewController: ItemSelectorDelegate {
     func valueChanged(_ selector: ItemSelector) {
         switch selector.itemId {
         case .initial:
-            if selector.currentIndex == 0 {
-                sustantiveView.isHidden = false
-                verbView.isHidden = true
-                self.view.bringSubviewToFront(sustantiveView)
-            } else if selector.currentIndex == 1 {
-                sustantiveView.isHidden = true
-                verbView.isHidden = false
-                self.view.bringSubviewToFront(verbView)
-            } else if selector.currentIndex == 2 {
-                sustantiveView.isHidden = true
-                verbView.isHidden = false
-                self.view.bringSubviewToFront(verbView)
-            }
             updateScreen()
         default:
             break
         }
-
     }
 
 }
 
 extension CurrentWordViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
