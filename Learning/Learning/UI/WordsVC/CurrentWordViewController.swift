@@ -639,6 +639,11 @@ class CurrentWordViewController: UIViewController {
         }
     }
 
+    private func backToInfoMode() {
+        mode = .info
+        updateScreen()
+    }
+
     //MARK: - Actions
 
     @objc
@@ -682,14 +687,12 @@ class CurrentWordViewController: UIViewController {
         let wordsAPI = WordsAPI()
         currentWord = word
         wordsAPI.updateWord(word)
-        mode = .info
-        updateScreen()
+        backToInfoMode()
     }
 
     @objc
     func cancelSustantive(sender: UIButton) {
-        mode = .info
-        updateScreen()
+        backToInfoMode()
     }
 
     @objc
@@ -728,14 +731,12 @@ class CurrentWordViewController: UIViewController {
         let wordsAPI = WordsAPI()
         currentWord = word
         wordsAPI.updateWord(word)
-        mode = .info
-        updateScreen()
+        backToInfoMode()
     }
 
     @objc
     func cancelVerb(sender: UIButton) {
-        mode = .info
-        updateScreen()
+       backToInfoMode()
     }
 
     @objc
@@ -766,14 +767,12 @@ class CurrentWordViewController: UIViewController {
         let wordsAPI = WordsAPI()
         currentWord = word
         wordsAPI.updateWord(word)
-        mode = .info
-        updateScreen()
+        backToInfoMode()
     }
 
     @objc
     func cancelAdjective(sender: UIButton) {
-        mode = .info
-        updateScreen()
+        backToInfoMode()
     }
 
     @objc
@@ -804,14 +803,12 @@ class CurrentWordViewController: UIViewController {
         let wordsAPI = WordsAPI()
         currentWord = word
         wordsAPI.updateWord(word)
-        mode = .info
-        updateScreen()
+        backToInfoMode()
     }
 
     @objc
     func cancelAdverb(sender: UIButton) {
-        mode = .info
-        updateScreen()
+        backToInfoMode()
     }
 
 }
