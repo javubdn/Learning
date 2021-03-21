@@ -327,7 +327,7 @@ class CurrentWordViewController: UIViewController {
         cancelButton.setTitle("Cancelar", for: .normal)
         cancelButton.tag = TAG_CANCEL_BUTTON
         cancelButton.backgroundColor = .blue
-        cancelButton.addTarget(self, action: #selector(cancelSustantive), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelEdit), for: .touchUpInside)
         verticalStack.addArrangedSubview(cancelButton)
 
         verticalStack.translatesAutoresizingMaskIntoConstraints = false
@@ -408,7 +408,7 @@ class CurrentWordViewController: UIViewController {
         cancelButton.setTitle("Cancelar", for: .normal)
         cancelButton.tag = TAG_CANCEL_BUTTON
         cancelButton.backgroundColor = .blue
-        cancelButton.addTarget(self, action: #selector(cancelVerb), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelEdit), for: .touchUpInside)
         verticalStack.addArrangedSubview(cancelButton)
 
         verticalStack.translatesAutoresizingMaskIntoConstraints = false
@@ -477,7 +477,7 @@ class CurrentWordViewController: UIViewController {
         cancelButton.setTitle("Cancelar", for: .normal)
         cancelButton.tag = TAG_CANCEL_BUTTON
         cancelButton.backgroundColor = .blue
-        cancelButton.addTarget(self, action: #selector(cancelAdjective), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelEdit), for: .touchUpInside)
         verticalStack.addArrangedSubview(cancelButton)
 
         verticalStack.translatesAutoresizingMaskIntoConstraints = false
@@ -545,7 +545,7 @@ class CurrentWordViewController: UIViewController {
         cancelButton.setTitle("Cancelar", for: .normal)
         cancelButton.tag = TAG_CANCEL_BUTTON
         cancelButton.backgroundColor = .blue
-        cancelButton.addTarget(self, action: #selector(cancelAdverb), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(cancelEdit), for: .touchUpInside)
         verticalStack.addArrangedSubview(cancelButton)
 
         verticalStack.translatesAutoresizingMaskIntoConstraints = false
@@ -691,7 +691,7 @@ class CurrentWordViewController: UIViewController {
     }
 
     @objc
-    func cancelSustantive(sender: UIButton) {
+    func cancelEdit(sender: UIButton) {
         backToInfoMode()
     }
 
@@ -735,11 +735,6 @@ class CurrentWordViewController: UIViewController {
     }
 
     @objc
-    func cancelVerb(sender: UIButton) {
-       backToInfoMode()
-    }
-
-    @objc
     func addAdjective(sender: UIButton) {
         if let missingTextfield = validateAdjectiveFields() {
             missingTextfield.becomeFirstResponder()
@@ -771,11 +766,6 @@ class CurrentWordViewController: UIViewController {
     }
 
     @objc
-    func cancelAdjective(sender: UIButton) {
-        backToInfoMode()
-    }
-
-    @objc
     func addAdverb(sender: UIButton) {
         if let missingTextfield = validateAdverbFields() {
             missingTextfield.becomeFirstResponder()
@@ -803,11 +793,6 @@ class CurrentWordViewController: UIViewController {
         let wordsAPI = WordsAPI()
         currentWord = word
         wordsAPI.updateWord(word)
-        backToInfoMode()
-    }
-
-    @objc
-    func cancelAdverb(sender: UIButton) {
         backToInfoMode()
     }
 
