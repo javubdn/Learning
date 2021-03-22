@@ -304,7 +304,7 @@ class CurrentWordViewController: UIViewController {
         addButton.setTitle("Añadir sustantivo", for: .normal)
         addButton.tag = TAG_ADD_BUTTON
         addButton.backgroundColor = .blue
-        addButton.addTarget(self, action: #selector(addSustantive), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(addButton)
         verticalStack.translatesAutoresizingMaskIntoConstraints = false
         sustantiveView.addSubview(verticalStack)
@@ -313,7 +313,7 @@ class CurrentWordViewController: UIViewController {
         editButton.setTitle("Editar sustantivo", for: .normal)
         editButton.tag = TAG_EDIT_BUTTON
         editButton.backgroundColor = .blue
-        editButton.addTarget(self, action: #selector(editSustantive), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(editButton)
 
         let acceptButton = UIButton()
@@ -387,14 +387,14 @@ class CurrentWordViewController: UIViewController {
         addButton.tag = TAG_ADD_BUTTON
         addButton.setTitle("Añadir verbo", for: .normal)
         addButton.backgroundColor = .blue
-        addButton.addTarget(self, action: #selector(addVerb), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(addButton)
 
         let editButton = UIButton()
         editButton.setTitle("Editar verbo", for: .normal)
         editButton.tag = TAG_EDIT_BUTTON
         editButton.backgroundColor = .blue
-        editButton.addTarget(self, action: #selector(editVerb), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(editButton)
 
         let acceptButton = UIButton()
@@ -456,14 +456,14 @@ class CurrentWordViewController: UIViewController {
         addButton.tag = TAG_ADD_BUTTON
         addButton.setTitle("Añadir adjetivo", for: .normal)
         addButton.backgroundColor = .blue
-        addButton.addTarget(self, action: #selector(addAdjective), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(addButton)
 
         let editButton = UIButton()
         editButton.setTitle("Editar adjetivo", for: .normal)
         editButton.tag = TAG_EDIT_BUTTON
         editButton.backgroundColor = .blue
-        editButton.addTarget(self, action: #selector(editAdjective), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(editButton)
 
         let acceptButton = UIButton()
@@ -524,14 +524,14 @@ class CurrentWordViewController: UIViewController {
         addButton.tag = TAG_ADD_BUTTON
         addButton.setTitle("Añadir adverbio", for: .normal)
         addButton.backgroundColor = .blue
-        addButton.addTarget(self, action: #selector(addAdverb), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(addButton)
 
         let editButton = UIButton()
         editButton.setTitle("Editar adverbio", for: .normal)
         editButton.tag = TAG_EDIT_BUTTON
         editButton.backgroundColor = .blue
-        editButton.addTarget(self, action: #selector(editAdverb), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(editButton)
 
         let acceptButton = UIButton()
@@ -578,37 +578,10 @@ class CurrentWordViewController: UIViewController {
         mainScrollView.contentInset = contentInset
     }
 
-    private func validateSustantiveFields() -> UITextField? {
-        for sustantiveTextfield in sustantiveTextfields {
-            if sustantiveTextfield.text == "" {
-                return sustantiveTextfield
-            }
-        }
-        return nil
-    }
-
-    private func validateVerbFields() -> UITextField? {
-        for verbTextfield in verbTextfields {
-            if verbTextfield.text == "" {
-                return verbTextfield
-            }
-        }
-        return nil
-    }
-
-    private func validateAdjectiveFields() -> UITextField? {
-        for adjectiveTextfield in adjectiveTextfields {
-            if adjectiveTextfield.text == "" {
-                return adjectiveTextfield
-            }
-        }
-        return nil
-    }
-
-    private func validateAdverbFields() -> UITextField? {
-        for adverbTextfield in adverbTextfields {
-            if adverbTextfield.text == "" {
-                return adverbTextfield
+    private func validateTextfields(_ textfields: [UITextField]) -> UITextField? {
+        for textfield in textfields {
+            if textfield.text == "" {
+                return textfield
             }
         }
         return nil
@@ -625,17 +598,10 @@ class CurrentWordViewController: UIViewController {
     //MARK: - Helpers
 
     private func clearFields() {
-        for sustantiveTextfield in sustantiveTextfields {
-            sustantiveTextfield.text = ""
-        }
-        for verbTextfield in verbTextfields {
-            verbTextfield.text = ""
-        }
-        for adjectiveTextfield in adjectiveTextfields {
-            adjectiveTextfield.text = ""
-        }
-        for adverbTextfield in adverbTextfields {
-            adverbTextfield.text = ""
+        for textfieldList in textfields {
+            for textfield in textfieldList {
+                textfield.text = ""
+            }
         }
     }
 
@@ -647,33 +613,52 @@ class CurrentWordViewController: UIViewController {
     //MARK: - Actions
 
     @objc
-    func addSustantive(sender: UIButton) {
-        if let missingTextfield = validateSustantiveFields() {
-            missingTextfield.becomeFirstResponder()
-            return
-        }
-        let wordsAPI = WordsAPI()
-        let word = Sustantive(id: "",
+    func addWord(sender: UIButton) {
+        let currentTextfields: [UITextField]
+        let word: Word
+        if typeItemSelector.currentIndex == 0 {
+            currentTextfields = sustantiveTextfields
+            word = Sustantive(id: "",
                               initialWord: sustantiveTextfields[0].text!,
                               endWord: sustantiveTextfields[3].text!,
                               initialGenre: sustantiveTextfields[1].text!,
                               endGenre: sustantiveTextfields[4].text!,
                               initialPlural: sustantiveTextfields[2].text!,
                               endPlural: sustantiveTextfields[5].text!)
-
+        } else if typeItemSelector.currentIndex == 1 {
+            currentTextfields = verbTextfields
+            word = Verb(id: "",
+                        initialWord: verbTextfields[0].text!,
+                        endWord: verbTextfields[2].text!,
+                        initialPart: verbTextfields[1].text!,
+                        endPart: verbTextfields[3].text!)
+        } else if typeItemSelector.currentIndex == 2 {
+            currentTextfields = adjectiveTextfields
+            word = Adjective(id: "", initialWord: adjectiveTextfields[0].text!, endWord: adjectiveTextfields[1].text!)
+        } else if typeItemSelector.currentIndex == 3 {
+            currentTextfields = adverbTextfields
+            word = Adverb(id: "", initialWord: adverbTextfields[0].text!, endWord: adverbTextfields[1].text!)
+        } else {
+            return
+        }
+        if let missingTextfield = validateTextfields(currentTextfields) {
+            missingTextfield.becomeFirstResponder()
+            return
+        }
+        let wordsAPI = WordsAPI()
         wordsAPI.addWord(word)
         clearFields()
     }
 
     @objc
-    func editSustantive(sender: UIButton) {
+    func editWord(sender: UIButton) {
         mode = .edit
         updateScreen()
     }
 
     @objc
     func acceptSustantive(sender: UIButton) {
-        if let missingTextfield = validateSustantiveFields() {
+        if let missingTextfield = validateTextfields(sustantiveTextfields) {
             missingTextfield.becomeFirstResponder()
             return
         }
@@ -696,30 +681,8 @@ class CurrentWordViewController: UIViewController {
     }
 
     @objc
-    func addVerb(sender: UIButton) {
-        if let missingTextfield = validateVerbFields() {
-            missingTextfield.becomeFirstResponder()
-            return
-        }
-        let wordsAPI = WordsAPI()
-        let word = Verb(id: "",
-                        initialWord: verbTextfields[0].text!,
-                        endWord: verbTextfields[2].text!,
-                        initialPart: verbTextfields[1].text!,
-                        endPart: verbTextfields[3].text!)
-        wordsAPI.addWord(word)
-        clearFields()
-    }
-
-    @objc
-    func editVerb(sender: UIButton) {
-        mode = .edit
-        updateScreen()
-    }
-
-    @objc
     func acceptVerb(sender: UIButton) {
-        if let missingTextfield = validateVerbFields() {
+        if let missingTextfield = validateTextfields(verbTextfields) {
             missingTextfield.becomeFirstResponder()
             return
         }
@@ -735,26 +698,8 @@ class CurrentWordViewController: UIViewController {
     }
 
     @objc
-    func addAdjective(sender: UIButton) {
-        if let missingTextfield = validateAdjectiveFields() {
-            missingTextfield.becomeFirstResponder()
-            return
-        }
-        let wordsAPI = WordsAPI()
-        let word = Adjective(id: "", initialWord: adjectiveTextfields[0].text!, endWord: adjectiveTextfields[1].text!)
-        wordsAPI.addWord(word)
-        clearFields()
-    }
-
-    @objc
-    func editAdjective(sender: UIButton) {
-        mode = .edit
-        updateScreen()
-    }
-
-    @objc
     func acceptAdjective(sender: UIButton) {
-        if let missingTextfield = validateAdjectiveFields() {
+        if let missingTextfield = validateTextfields(adjectiveTextfields) {
             missingTextfield.becomeFirstResponder()
             return
         }
@@ -766,26 +711,8 @@ class CurrentWordViewController: UIViewController {
     }
 
     @objc
-    func addAdverb(sender: UIButton) {
-        if let missingTextfield = validateAdverbFields() {
-            missingTextfield.becomeFirstResponder()
-            return
-        }
-        let wordsAPI = WordsAPI()
-        let word = Adverb(id: "", initialWord: adverbTextfields[0].text!, endWord: adverbTextfields[1].text!)
-        wordsAPI.addWord(word)
-        clearFields()
-    }
-
-    @objc
-    func editAdverb(sender: UIButton) {
-        mode = .edit
-        updateScreen()
-    }
-
-    @objc
     func acceptAdverb(sender: UIButton) {
-        if let missingTextfield = validateAdverbFields() {
+        if let missingTextfield = validateTextfields(adverbTextfields) {
             missingTextfield.becomeFirstResponder()
             return
         }
