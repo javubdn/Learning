@@ -65,10 +65,10 @@ class CurrentWordViewController: UIViewController {
                 }
             }
         }
-        prepareSustantiveView()
-        prepareVerbView()
-        prepareAdjectiveView()
-        prepareAdverbView()
+        prepareView(sustantiveView, with: FieldsView(nameFields: ["Palabra en", "Género en", "Plural en"], tagFields: [TAG_SUST_WORD, TAG_SUST_GENDER, TAG_SUST_PLURAL], name: "Sustantivo", nameTextFields: 0))
+        prepareView(verbView, with: FieldsView(nameFields: ["Palabra en", "Participio en"], tagFields: [TAG_VERB_WORD, TAG_VERB_PART], name: "Verbo", nameTextFields: 1))
+        prepareView(adjectiveView, with: FieldsView(nameFields: ["Palabra en"], tagFields: [TAG_ADJ_WORD], name: "Adjetivo", nameTextFields: 2))
+        prepareView(adverbView, with: FieldsView(nameFields: ["Palabra en"], tagFields: [TAG_ADV_WORD], name: "Adverbio", nameTextFields: 3))
         textfields = [sustantiveTextfields, verbTextfields, adjectiveTextfields, adverbTextfields]
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -244,151 +244,74 @@ class CurrentWordViewController: UIViewController {
         }
     }
 
-    private func prepareSustantiveView() {
-        let verticalStack = UIStackView()
-        verticalStack.axis = .vertical
-        verticalStack.spacing = 30
-        verticalStack.alignment = .fill
-        verticalStack.distribution = .fill
-
-        for language in languages {
-            let nameLabel = UILabel()
-            nameLabel.text = "Palabra en \(language)"
-            let nameTextField = UITextField()
-            nameTextField.tag = TAG_SUST_WORD * 100 + languages.firstIndex(of: language)!
-            nameTextField.borderStyle = .roundedRect
-            let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
-            nameStack.axis = .horizontal
-            nameStack.spacing = 20
-            nameStack.alignment = .fill
-            nameStack.distribution = .fillEqually
-
-            let genderLabel = UILabel()
-            genderLabel.text = "Género en \(language)"
-            let genderTextField = UITextField()
-            genderTextField.tag = TAG_SUST_GENDER * 100 + languages.firstIndex(of: language)!
-            genderTextField.borderStyle = .roundedRect
-            let genderStack = UIStackView(arrangedSubviews: [genderLabel, genderTextField])
-            genderStack.axis = .horizontal
-            genderStack.spacing = 20
-            genderStack.alignment = .fill
-            genderStack.distribution = .fillEqually
-
-            let pluralLabel = UILabel()
-            pluralLabel.text = "Plural en \(language)"
-            let pluralTextField = UITextField()
-            pluralTextField.tag = TAG_SUST_PLURAL * 100 + languages.firstIndex(of: language)!
-            pluralTextField.borderStyle = .roundedRect
-            let pluralStack = UIStackView(arrangedSubviews: [pluralLabel, pluralTextField])
-            pluralStack.axis = .horizontal
-            pluralStack.spacing = 20
-            pluralStack.alignment = .fill
-            pluralStack.distribution = .fillEqually
-
-            verticalStack.addArrangedSubview(nameStack)
-            verticalStack.addArrangedSubview(genderStack)
-            verticalStack.addArrangedSubview(pluralStack)
-
-            sustantiveTextfields.append(contentsOf: [nameTextField, genderTextField, pluralTextField])
-        }
-
-        for textField in sustantiveTextfields {
-            textField.delegate = self
-            textField.returnKeyType = .next
-        }
-        sustantiveTextfields.last?.returnKeyType = .default
-
-        let addButton = UIButton()
-        addButton.setTitle("Añadir sustantivo", for: .normal)
-        addButton.tag = TAG_ADD_BUTTON
-        addButton.backgroundColor = .blue
-        addButton.addTarget(self, action: #selector(addWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(addButton)
-        verticalStack.translatesAutoresizingMaskIntoConstraints = false
-        sustantiveView.addSubview(verticalStack)
-
-        let editButton = UIButton()
-        editButton.setTitle("Editar sustantivo", for: .normal)
-        editButton.tag = TAG_EDIT_BUTTON
-        editButton.backgroundColor = .blue
-        editButton.addTarget(self, action: #selector(editWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(editButton)
-
-        let acceptButton = UIButton()
-        acceptButton.setTitle("Aceptar", for: .normal)
-        acceptButton.tag = TAG_ACCEPT_BUTTON
-        acceptButton.backgroundColor = .blue
-        acceptButton.addTarget(self, action: #selector(acceptChangeWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(acceptButton)
-
-        let cancelButton = UIButton()
-        cancelButton.setTitle("Cancelar", for: .normal)
-        cancelButton.tag = TAG_CANCEL_BUTTON
-        cancelButton.backgroundColor = .blue
-        cancelButton.addTarget(self, action: #selector(cancelEdit), for: .touchUpInside)
-        verticalStack.addArrangedSubview(cancelButton)
-
-        verticalStack.translatesAutoresizingMaskIntoConstraints = false
-        sustantiveView.addSubview(verticalStack)
-
-        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack":verticalStack])
-        let stackView_V: [NSLayoutConstraint]
-        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack":verticalStack])
-
-        sustantiveView.addConstraints(stackView_H)
-        sustantiveView.addConstraints(stackView_V)
+    struct FieldsView {
+        let nameFields: [String]
+        let tagFields: [Int]
+        let name: String
+        let nameTextFields: Int
     }
 
-    private func prepareVerbView() {
+    private func prepareView(_ currentView: UIView, with fields: FieldsView) {
+        guard fields.nameFields.count == fields.tagFields.count else {
+            return
+        }
         let verticalStack = UIStackView()
         verticalStack.axis = .vertical
         verticalStack.spacing = 30
         verticalStack.alignment = .fill
         verticalStack.distribution = .fill
-
+        var currentTextfields: [UITextField]
+        if fields.nameTextFields == 0 {
+            currentTextfields = sustantiveTextfields
+        } else if fields.nameTextFields == 1 {
+            currentTextfields = verbTextfields
+        } else if fields.nameTextFields == 2 {
+            currentTextfields = adjectiveTextfields
+        } else {
+            currentTextfields = adverbTextfields
+        }
         for language in languages {
-            let nameLabel = UILabel()
-            nameLabel.text = "Palabra en \(language)"
-            let nameTextField = UITextField()
-            nameTextField.tag = TAG_VERB_WORD * 100 + languages.firstIndex(of: language)!
-            nameTextField.borderStyle = .roundedRect
-            let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
-            nameStack.axis = .horizontal
-            nameStack.spacing = 20
-            nameStack.alignment = .fill
-            nameStack.distribution = .fillEqually
-
-            let participleLabel = UILabel()
-            participleLabel.text = "Participio en \(language)"
-            let participleTextField = UITextField()
-            participleTextField.tag = TAG_VERB_PART * 100 + languages.firstIndex(of: language)!
-            participleTextField.borderStyle = .roundedRect
-            let participleStack = UIStackView(arrangedSubviews: [participleLabel, participleTextField])
-            participleStack.axis = .horizontal
-            participleStack.spacing = 20
-            participleStack.alignment = .fill
-            participleStack.distribution = .fillEqually
-
-            verticalStack.addArrangedSubview(nameStack)
-            verticalStack.addArrangedSubview(participleStack)
-            verbTextfields.append(contentsOf: [nameTextField, participleTextField])
+            for index in 0..<fields.nameFields.count {
+                let valueLabel = UILabel()
+                valueLabel.text = "\(fields.nameFields[index]) \(language)"
+                let valueTextField = UITextField()
+                valueTextField.tag = fields.tagFields[index] * 100 + languages.firstIndex(of: language)!
+                valueTextField.borderStyle = .roundedRect
+                let valueStack = UIStackView(arrangedSubviews: [valueLabel, valueTextField])
+                valueStack.axis = .horizontal
+                valueStack.spacing = 20
+                valueStack.alignment = .fill
+                valueStack.distribution = .fillEqually
+                verticalStack.addArrangedSubview(valueStack)
+                currentTextfields.append(contentsOf: [valueTextField])
+            }
         }
 
-        for textField in verbTextfields {
+        for textField in currentTextfields {
             textField.delegate = self
             textField.returnKeyType = .next
         }
-        verbTextfields.last?.returnKeyType = .default
+        currentTextfields.last?.returnKeyType = .default
+
+        if fields.nameTextFields == 0 {
+            sustantiveTextfields = currentTextfields
+        } else if fields.nameTextFields == 1 {
+            verbTextfields = currentTextfields
+        } else if fields.nameTextFields == 2 {
+            adjectiveTextfields = currentTextfields
+        } else {
+            adverbTextfields = currentTextfields
+        }
 
         let addButton = UIButton()
+        addButton.setTitle("Añadir \(fields.name)", for: .normal)
         addButton.tag = TAG_ADD_BUTTON
-        addButton.setTitle("Añadir verbo", for: .normal)
         addButton.backgroundColor = .blue
         addButton.addTarget(self, action: #selector(addWord), for: .touchUpInside)
         verticalStack.addArrangedSubview(addButton)
-
+        
         let editButton = UIButton()
-        editButton.setTitle("Editar verbo", for: .normal)
+        editButton.setTitle("Editar \(fields.name)", for: .normal)
         editButton.tag = TAG_EDIT_BUTTON
         editButton.backgroundColor = .blue
         editButton.addTarget(self, action: #selector(editWord), for: .touchUpInside)
@@ -409,151 +332,15 @@ class CurrentWordViewController: UIViewController {
         verticalStack.addArrangedSubview(cancelButton)
 
         verticalStack.translatesAutoresizingMaskIntoConstraints = false
-        verbView.addSubview(verticalStack)
+        currentView.addSubview(verticalStack)
 
-        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack":verticalStack])
+        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack": verticalStack])
         let stackView_V: [NSLayoutConstraint]
-        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack":verticalStack])
+        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack": verticalStack])
 
-        verbView.addConstraints(stackView_H)
-        verbView.addConstraints(stackView_V)
-    }
+        currentView.addConstraints(stackView_H)
+        currentView.addConstraints(stackView_V)
 
-    private func prepareAdjectiveView() {
-        let verticalStack = UIStackView()
-        verticalStack.axis = .vertical
-        verticalStack.spacing = 30
-        verticalStack.alignment = .fill
-        verticalStack.distribution = .fill
-
-        for language in languages {
-
-            let nameLabel = UILabel()
-            nameLabel.text = "Palabra en \(language)"
-            let nameTextField = UITextField()
-            nameTextField.tag = TAG_ADJ_WORD * 100 + languages.firstIndex(of: language)!
-            nameTextField.borderStyle = .roundedRect
-            let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
-            nameStack.axis = .horizontal
-            nameStack.spacing = 20
-            nameStack.alignment = .fill
-            nameStack.distribution = .fillEqually
-
-            verticalStack.addArrangedSubview(nameStack)
-            adjectiveTextfields.append(contentsOf: [nameTextField])
-        }
-
-        for textField in adjectiveTextfields {
-            textField.delegate = self
-            textField.returnKeyType = .next
-        }
-        adjectiveTextfields.last?.returnKeyType = .default
-
-        let addButton = UIButton()
-        addButton.tag = TAG_ADD_BUTTON
-        addButton.setTitle("Añadir adjetivo", for: .normal)
-        addButton.backgroundColor = .blue
-        addButton.addTarget(self, action: #selector(addWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(addButton)
-
-        let editButton = UIButton()
-        editButton.setTitle("Editar adjetivo", for: .normal)
-        editButton.tag = TAG_EDIT_BUTTON
-        editButton.backgroundColor = .blue
-        editButton.addTarget(self, action: #selector(editWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(editButton)
-
-        let acceptButton = UIButton()
-        acceptButton.setTitle("Aceptar", for: .normal)
-        acceptButton.tag = TAG_ACCEPT_BUTTON
-        acceptButton.backgroundColor = .blue
-        acceptButton.addTarget(self, action: #selector(acceptChangeWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(acceptButton)
-
-        let cancelButton = UIButton()
-        cancelButton.setTitle("Cancelar", for: .normal)
-        cancelButton.tag = TAG_CANCEL_BUTTON
-        cancelButton.backgroundColor = .blue
-        cancelButton.addTarget(self, action: #selector(cancelEdit), for: .touchUpInside)
-        verticalStack.addArrangedSubview(cancelButton)
-
-        verticalStack.translatesAutoresizingMaskIntoConstraints = false
-        adjectiveView.addSubview(verticalStack)
-
-        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack":verticalStack])
-        let stackView_V: [NSLayoutConstraint]
-        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack":verticalStack])
-
-        adjectiveView.addConstraints(stackView_H)
-        adjectiveView.addConstraints(stackView_V)
-    }
-
-    private func prepareAdverbView() {
-        let verticalStack = UIStackView()
-        verticalStack.axis = .vertical
-        verticalStack.spacing = 30
-        verticalStack.alignment = .fill
-        verticalStack.distribution = .fill
-
-        for language in languages {
-            let nameLabel = UILabel()
-            nameLabel.text = "Palabra en \(language)"
-            let nameTextField = UITextField()
-            nameTextField.tag = TAG_ADV_WORD * 100 + languages.firstIndex(of: language)!
-            nameTextField.borderStyle = .roundedRect
-            let nameStack = UIStackView(arrangedSubviews: [nameLabel, nameTextField])
-            nameStack.axis = .horizontal
-            nameStack.spacing = 20
-            nameStack.alignment = .fill
-            nameStack.distribution = .fillEqually
-
-            verticalStack.addArrangedSubview(nameStack)
-            adverbTextfields.append(contentsOf: [nameTextField])
-        }
-
-        for textField in adverbTextfields {
-            textField.delegate = self
-            textField.returnKeyType = .next
-        }
-        adverbTextfields.last?.returnKeyType = .default
-
-        let addButton = UIButton()
-        addButton.tag = TAG_ADD_BUTTON
-        addButton.setTitle("Añadir adverbio", for: .normal)
-        addButton.backgroundColor = .blue
-        addButton.addTarget(self, action: #selector(addWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(addButton)
-
-        let editButton = UIButton()
-        editButton.setTitle("Editar adverbio", for: .normal)
-        editButton.tag = TAG_EDIT_BUTTON
-        editButton.backgroundColor = .blue
-        editButton.addTarget(self, action: #selector(editWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(editButton)
-
-        let acceptButton = UIButton()
-        acceptButton.setTitle("Aceptar", for: .normal)
-        acceptButton.tag = TAG_ACCEPT_BUTTON
-        acceptButton.backgroundColor = .blue
-        acceptButton.addTarget(self, action: #selector(acceptChangeWord), for: .touchUpInside)
-        verticalStack.addArrangedSubview(acceptButton)
-
-        let cancelButton = UIButton()
-        cancelButton.setTitle("Cancelar", for: .normal)
-        cancelButton.tag = TAG_CANCEL_BUTTON
-        cancelButton.backgroundColor = .blue
-        cancelButton.addTarget(self, action: #selector(cancelEdit), for: .touchUpInside)
-        verticalStack.addArrangedSubview(cancelButton)
-
-        verticalStack.translatesAutoresizingMaskIntoConstraints = false
-        adverbView.addSubview(verticalStack)
-
-        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[verticalStack]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["verticalStack":verticalStack])
-        let stackView_V: [NSLayoutConstraint]
-        stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[verticalStack]-30-|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: nil, views: ["verticalStack":verticalStack])
-
-        adverbView.addConstraints(stackView_H)
-        adverbView.addConstraints(stackView_V)
     }
 
     @objc func dismissKeyboard() {
