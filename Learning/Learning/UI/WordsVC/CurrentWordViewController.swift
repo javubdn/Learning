@@ -128,22 +128,26 @@ class CurrentWordViewController: UIViewController {
         }
     }
 
-    private func updateSustantiveView(_ sustantive: Sustantive?) {
-        for textField in sustantiveTextfields {
+    private func updateView(_ view: UIView, with textfields: [UITextField]) {
+        for textField in textfields {
             textField.isEnabled = mode != .info
         }
-        if let addButton = sustantiveView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
+        if let addButton = view.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
             addButton.isHidden = mode != .new
         }
-        if let editButton = sustantiveView.viewWithTag(TAG_EDIT_BUTTON) as? UIButton {
+        if let editButton = view.viewWithTag(TAG_EDIT_BUTTON) as? UIButton {
             editButton.isHidden = mode != .info
         }
-        if let acceptButton = sustantiveView.viewWithTag(TAG_ACCEPT_BUTTON) as? UIButton {
+        if let acceptButton = view.viewWithTag(TAG_ACCEPT_BUTTON) as? UIButton {
             acceptButton.isHidden = mode != .edit
         }
-        if let cancelButton = sustantiveView.viewWithTag(TAG_CANCEL_BUTTON) as? UIButton {
+        if let cancelButton = view.viewWithTag(TAG_CANCEL_BUTTON) as? UIButton {
             cancelButton.isHidden = mode != .edit
         }
+    }
+
+    private func updateSustantiveView(_ sustantive: Sustantive?) {
+        updateView(sustantiveView, with: sustantiveTextfields)
         if let sustantiveInit = sustantiveView.viewWithTag(TAG_SUST_WORD * 100 + 0) as? UITextField {
             sustantiveInit.text = sustantive?.initialWord
         }
@@ -166,21 +170,7 @@ class CurrentWordViewController: UIViewController {
     }
 
     private func updateVerbView(_ verb: Verb?) {
-        for textField in verbTextfields {
-            textField.isEnabled = mode != .info
-        }
-        if let addButton = verbView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
-            addButton.isHidden = mode != .new
-        }
-        if let editButton = verbView.viewWithTag(TAG_EDIT_BUTTON) as? UIButton {
-            editButton.isHidden = mode != .info
-        }
-        if let acceptButton = verbView.viewWithTag(TAG_ACCEPT_BUTTON) as? UIButton {
-            acceptButton.isHidden = mode != .edit
-        }
-        if let cancelButton = verbView.viewWithTag(TAG_CANCEL_BUTTON) as? UIButton {
-            cancelButton.isHidden = mode != .edit
-        }
+        updateView(verbView, with: verbTextfields)
         if let verbInit = verbView.viewWithTag(TAG_VERB_WORD * 100 + 0) as? UITextField {
             verbInit.text = verb?.initialWord
         }
@@ -197,21 +187,7 @@ class CurrentWordViewController: UIViewController {
     }
 
     private func updateAdjectiveView(_ adjective: Adjective?) {
-        for textField in adjectiveTextfields {
-            textField.isEnabled = mode != .info
-        }
-        if let addButton = adjectiveView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
-            addButton.isHidden = mode != .new
-        }
-        if let editButton = adjectiveView.viewWithTag(TAG_EDIT_BUTTON) as? UIButton {
-            editButton.isHidden = mode != .info
-        }
-        if let acceptButton = adjectiveView.viewWithTag(TAG_ACCEPT_BUTTON) as? UIButton {
-            acceptButton.isHidden = mode != .edit
-        }
-        if let cancelButton = adjectiveView.viewWithTag(TAG_CANCEL_BUTTON) as? UIButton {
-            cancelButton.isHidden = mode != .edit
-        }
+        updateView(adjectiveView, with: adjectiveTextfields)
         if let adjInit = adjectiveView.viewWithTag(TAG_ADJ_WORD * 100 + 0) as? UITextField {
             adjInit.text = adjective?.initialWord
         }
@@ -221,21 +197,7 @@ class CurrentWordViewController: UIViewController {
     }
 
     private func updateAdverbView(_ adverb: Adverb?) {
-        for textField in adverbTextfields {
-            textField.isEnabled = mode != .info
-        }
-        if let addButton = adverbView.viewWithTag(TAG_ADD_BUTTON) as? UIButton {
-            addButton.isHidden = mode != .new
-        }
-        if let editButton = adverbView.viewWithTag(TAG_EDIT_BUTTON) as? UIButton {
-            editButton.isHidden = mode != .info
-        }
-        if let acceptButton = adverbView.viewWithTag(TAG_ACCEPT_BUTTON) as? UIButton {
-            acceptButton.isHidden = mode != .edit
-        }
-        if let cancelButton = adverbView.viewWithTag(TAG_CANCEL_BUTTON) as? UIButton {
-            cancelButton.isHidden = mode != .edit
-        }
+        updateView(adverbView, with: adverbTextfields)
         if let advInit = adverbView.viewWithTag(TAG_ADV_WORD * 100 + 0) as? UITextField {
             advInit.text = adverb?.initialWord
         }
@@ -503,8 +465,6 @@ extension CurrentWordViewController: ItemSelectorDelegate {
 }
 
 extension CurrentWordViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         for currentTextfields in textfields {
