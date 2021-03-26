@@ -33,6 +33,7 @@
 		BC9C682A25ADB327004A77CC /* CurrentWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9C682825ADB326004A77CC /* CurrentWordViewController.xib */; };
 		BCC85ED025FE266C0085B621 /* Adjective.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC85ECF25FE266A0085B621 /* Adjective.swift */; };
 		BCC85ED3260341900085B621 /* Adverb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC85ED2260341900085B621 /* Adverb.swift */; };
+		BCC85EDA260C7EB20085B621 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC85ED9260C7EB20085B621 /* APIError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		BC9C684C25ADB6BC004A77CC /* Learning copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Learning copy-Info.plist"; path = "/Users/javicastillorisco/Github/Learning/Learning/Learning copy-Info.plist"; sourceTree = "<absolute>"; };
 		BCC85ECF25FE266A0085B621 /* Adjective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adjective.swift; sourceTree = "<group>"; };
 		BCC85ED2260341900085B621 /* Adverb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adverb.swift; sourceTree = "<group>"; };
+		BCC85ED9260C7EB20085B621 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 			children = (
 				BC9C67F325AB6E97004A77CC /* DBManager.swift */,
 				BC9C680425AC72EE004A77CC /* WordsAPI.swift */,
+				BCC85ED9260C7EB20085B621 /* APIError.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				BC9C682425ACD19A004A77CC /* WordTableViewCell.swift in Sources */,
 				BC9C681025AC7832004A77CC /* Score.swift in Sources */,
 				BC9C67CA25AAF2B2004A77CC /* AppDelegate.swift in Sources */,
+				BCC85EDA260C7EB20085B621 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

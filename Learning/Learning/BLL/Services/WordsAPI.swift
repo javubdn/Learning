@@ -108,28 +108,37 @@ class WordsAPI {
         return listWords
     }
 
-    func addWord(_ word: Word) {
+    func addWord(_ word: Word) -> APIError? {
         let dbManager = DBManager(with: "wordsdb.sql")
         for query in word.getAddQueries() {
-            dbManager.execute(query)
+            let success = dbManager.execute(query)
+            if !success {
+                return .failInDB
+            }
         }
-
+        return nil
     }
 
-    func removeWord(_ word: Word) {
+    func removeWord(_ word: Word) -> APIError?  {
         let dbManager = DBManager(with: "wordsdb.sql")
         for query in word.getRemoveQueries() {
-            dbManager.execute(query)
+            let success = dbManager.execute(query)
+            if !success {
+                return .failInDB
+            }
         }
-
+        return nil
     }
 
-    func updateWord(_ word: Word) {
+    func updateWord(_ word: Word) -> APIError?  {
         let dbManager = DBManager(with: "wordsdb.sql")
         for query in word.getUpdateQueries() {
-            dbManager.execute(query)
+            let success = dbManager.execute(query)
+            if !success {
+                return .failInDB
+            }
         }
-
+        return nil
     }
 
 }

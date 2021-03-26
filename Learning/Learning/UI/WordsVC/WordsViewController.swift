@@ -62,7 +62,7 @@ extension WordsViewController: UITableViewDelegate {
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
             let wordsAPI = WordsAPI()
-            wordsAPI.removeWord(word)
+            _ = wordsAPI.removeWord(word)
         }
     }
 }

@@ -15,6 +15,12 @@ enum Mode {
 
 class CurrentWordViewController: UIViewController {
 
+    private enum VisualError {
+        case generic
+        case dataBase
+        case duplicated
+    }
+
     private let TAG_ADD_BUTTON = 1
     private let TAG_SUST_WORD = 2
     private let TAG_SUST_GENDER = 3
@@ -356,6 +362,21 @@ class CurrentWordViewController: UIViewController {
         updateScreen()
     }
 
+    private func showError(_ error: VisualError) {
+        let message: String
+        switch error {
+        case .dataBase:
+            message = "Ha habido un error en la base de datos"
+        case .duplicated:
+            message = "La palabra ya existe"
+        case .generic :
+            message = "Algo ha ido mal"
+        }
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Aceptar", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+
     //MARK: - Actions
 
     @objc
@@ -392,8 +413,16 @@ class CurrentWordViewController: UIViewController {
             return
         }
         let wordsAPI = WordsAPI()
-        wordsAPI.addWord(word)
-        clearFields()
+        if let error = wordsAPI.addWord(word) {
+            switch error {
+            case .failInDB:
+                showError(.dataBase)
+            case .wordAlreadyExists:
+                showError(.duplicated)
+            }
+        } else {
+            clearFields()
+        }
     }
 
     @objc
@@ -440,8 +469,13 @@ class CurrentWordViewController: UIViewController {
         }
         let wordsAPI = WordsAPI()
         self.currentWord = word
-        wordsAPI.updateWord(word)
-        backToInfoMode()
+        if let error = wordsAPI.updateWord(word) {
+            if error == .failInDB {
+                showError(.dataBase)
+            }
+        } else {
+            backToInfoMode()
+        }
     }
 
     @objc

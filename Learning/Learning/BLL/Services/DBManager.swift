@@ -67,18 +67,19 @@ class DBManager {
         return dataList
     }
 
-    func execute(_ executeStatementString: String) {
+    func execute(_ executeStatementString: String) -> Bool {
         var executeStatement: OpaquePointer?
+        let success: Bool
         if sqlite3_prepare_v2(db, executeStatementString, -1, &executeStatement, nil) == SQLITE_OK {
             if sqlite3_step(executeStatement) == SQLITE_DONE {
-                print("\nStatement successfully executed.")
+                success = true
             } else {
-                print("\nCould not exectue the statement.")
+                success = false
             }
         } else {
-            print("\nStatement could not be prepared.")
+            success = false
         }
-        sqlite3_finalize(executeStatement)
+        return success
     }
 
     private func openDatabase(_ databasePath: String) -> OpaquePointer? {
