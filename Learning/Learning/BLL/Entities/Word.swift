@@ -18,6 +18,26 @@ class Word {
         self.endWord = endWord
     }
 
+    func exists() -> Bool {
+        guard let tables = getTables() else {
+            return false
+        }
+        let tableNameInit = tables[0]
+        let dbManager = DBManager(with: "wordsdb.sql")
+        let queryInit = "select * from \(tableNameInit)"
+        let wordInit = dbManager.query(queryInit)
+        var items = [String]()
+        if let itemInit = wordInit as? [[String]]{
+            for index in 0..<itemInit.count {
+                items.append(itemInit[index][1])
+            }
+        }
+        if items.first(where: { $0 == initialWord }) != nil {
+            return true
+        }
+        return false
+    }
+
     func getAddQueries() -> [String] {
         preconditionFailure("This method must be overridden")
     }

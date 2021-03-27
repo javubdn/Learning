@@ -110,6 +110,9 @@ class WordsAPI {
 
     func addWord(_ word: Word) -> APIError? {
         let dbManager = DBManager(with: "wordsdb.sql")
+        if word.exists() {
+            return .wordAlreadyExists
+        }
         for query in word.getAddQueries() {
             let success = dbManager.execute(query)
             if !success {
