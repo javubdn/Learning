@@ -23,6 +23,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var correctButton: UIButton!
     @IBOutlet weak var solutionButton: UIButton!
+    @IBOutlet weak var restartButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +80,10 @@ class GameViewController: UIViewController {
             solutionButton.isEnabled = false
             currentScore?.numSuccess += 1
             progressView.addSuccess()
+            if currentScore?.numSuccess == maximumScore {
+                restartButton.isHidden = false
+                nextButton.isHidden = true
+            }
         } else {
             solutionLabel.text = "INCORRECTO"
             solutionLabel.textColor = .red
@@ -102,6 +107,14 @@ class GameViewController: UIViewController {
 
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         prepareScreen()
+    }
+
+    @IBAction func restartButtonPressed(_ sender: UIButton) {
+        currentScore?.numSuccess = 0
+        progressView.resetScore()
+        restartButton.isHidden = true
+        solutionTextField.text = ""
+        solutionLabel.text = ""
     }
 
     @IBAction func solutionTextFieldChanged(_ sender: Any) {

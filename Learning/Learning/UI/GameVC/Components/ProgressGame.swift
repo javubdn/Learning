@@ -61,4 +61,10 @@ class ProgressGame: UIView {
         }
     }
 
+    func resetScore() {
+        successNumber = 0
+        widthProgressConstraint.constant = 0
+        layoutIfNeeded()
+    }
+
 }

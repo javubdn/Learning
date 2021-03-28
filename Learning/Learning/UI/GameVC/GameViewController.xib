@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,6 +14,7 @@
                 <outlet property="correctButton" destination="KfJ-bP-S1d" id="1nf-bs-fvS"/>
                 <outlet property="nextButton" destination="Wtj-un-Gzb" id="yWV-Ri-2Rb"/>
                 <outlet property="progressView" destination="Yox-cV-ZTk" id="UMk-sY-SFc"/>
+                <outlet property="restartButton" destination="4Ma-Nb-Dwy" id="oQZ-gN-smg"/>
                 <outlet property="solutionButton" destination="J9Z-U3-2F5" id="LFL-ln-rbb"/>
                 <outlet property="solutionLabel" destination="nvx-4L-f4B" id="26G-zv-rms"/>
                 <outlet property="solutionTextField" destination="Qhb-zW-xdH" id="331-zW-ipR"/>
@@ -157,9 +158,25 @@
                                                 <action selector="nextButtonPressed:" destination="-1" eventType="touchUpInside" id="tHn-ez-E7H"/>
                                             </connections>
                                         </button>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ma-Nb-Dwy" userLabel="restartButton">
+                                            <rect key="frame" x="157" y="359" width="100" height="36"/>
+                                            <color key="backgroundColor" systemColor="linkColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="NT1-aP-xsv"/>
+                                                <constraint firstAttribute="height" constant="36" id="p9c-WB-XQr"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                            <state key="normal" title="Reiniciar">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="restartButtonPressed:" destination="-1" eventType="touchUpInside" id="QEK-So-Inx"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="4Ma-Nb-Dwy" secondAttribute="bottom" constant="30" id="2uA-3i-1Iq"/>
                                         <constraint firstItem="Uyf-F8-o2t" firstAttribute="top" secondItem="Qhb-zW-xdH" secondAttribute="bottom" constant="30" id="91l-hk-TUf"/>
                                         <constraint firstItem="2BH-Ib-ck7" firstAttribute="leading" secondItem="qC4-5s-Lee" secondAttribute="leading" constant="20" id="AZk-BN-qVo"/>
                                         <constraint firstItem="nvx-4L-f4B" firstAttribute="centerX" secondItem="qC4-5s-Lee" secondAttribute="centerX" id="BpN-Cv-CCy"/>
@@ -171,6 +188,7 @@
                                         <constraint firstItem="Qhb-zW-xdH" firstAttribute="centerX" secondItem="qC4-5s-Lee" secondAttribute="centerX" id="Pkb-I7-YWO"/>
                                         <constraint firstItem="Wtj-un-Gzb" firstAttribute="centerX" secondItem="qC4-5s-Lee" secondAttribute="centerX" id="Q87-nO-PtI"/>
                                         <constraint firstItem="Wtj-un-Gzb" firstAttribute="top" secondItem="nvx-4L-f4B" secondAttribute="bottom" constant="30" id="SoE-ez-pmr"/>
+                                        <constraint firstItem="4Ma-Nb-Dwy" firstAttribute="centerX" secondItem="qC4-5s-Lee" secondAttribute="centerX" id="Vpw-hr-ln0"/>
                                         <constraint firstItem="2BH-Ib-ck7" firstAttribute="top" secondItem="Yox-cV-ZTk" secondAttribute="bottom" constant="30" id="aPq-UJ-Buz"/>
                                         <constraint firstItem="Yox-cV-ZTk" firstAttribute="leading" secondItem="qC4-5s-Lee" secondAttribute="leading" constant="20" id="cbP-RM-M4y"/>
                                         <constraint firstItem="Yox-cV-ZTk" firstAttribute="centerX" secondItem="qC4-5s-Lee" secondAttribute="centerX" id="d1F-R9-Ixa"/>
@@ -210,6 +228,9 @@
         </view>
     </objects>
     <resources>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
